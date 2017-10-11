@@ -1,0 +1,7 @@
+rootProject.name = 'DAD_Project_Backend'
+
+include 'DCModel'
+include 'DCRepository'
+include 'DCService'
+include 'DCWeb'
+

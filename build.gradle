@@ -1,0 +1,105 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+
+version = '0.0.1-SNAPSHOT'
+
+
+repositories {
+	mavenCentral()
+}
+subprojects{
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	apply plugin: 'org.springframework.boot'
+
+	sourceCompatibility = 1.8
+
+	springBoot {
+		mainClass = "database.application.development.web"
+	}
+
+	dependencies{
+		compile('org.springframework.boot:spring-boot-starter')
+		testCompile('org.springframework.boot:spring-boot-starter-test')
+		compile 'org.springframework.boot:spring-boot-starter-web'
+
+		compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '1.5.3.RELEASE'
+
+		compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
+		compileOnly "org.projectlombok:lombok:1.16.16"
+
+		compile("org.aspectj:aspectjtools:${aspectJTVer}")
+
+		if(project.name == ':DCWeb'){
+			dependencies {
+				compile project(':DCModel')
+				compile project(':DCService')
+				compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+				compile("io.springfox:springfox-swagger2:${swaggerVer}")
+				compile("io.springfox:springfox-swagger-ui:${swaggerVer}")
+			}
+		}
+	}
+
+	repositories {
+		mavenCentral()
+	}
+}
+
+project(':DCModel'){
+	dependencies{
+		compile("org.hibernate:hibernate-core:5.2.10.Final")
+	}
+}
+project(':DCRepository'){
+	dependencies {
+		compile project(':DCModel')
+		compile("org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}")
+		compile("org.hibernate:hibernate-core:5.2.10.Final")
+		testCompile group: 'org.testng', name: 'testng', version: "${springNgTestVersion}"
+		testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+
+	}
+}
+project(':DCService') {
+	dependencies {
+		compile project(':DCModel')
+		compile project(':DCRepository')
+	}
+}
+
+
+project(':DCWeb') {
+	dependencies {
+		compile project (':DCModel')
+		compile project (':DCService')
+		compile("io.springfox:springfox-swagger2:${swaggerVer}")
+		compile("io.springfox:springfox-swagger-ui:${swaggerVer}")
+	}
+	bootRun {
+		addResources = true
+		systemProperty 'server.port', serverPort
+		systemProperty 'management.port', managementPort
+		systemProperty 'spring.profiles.active', springBootProfile
+	}
+
+
+	bootRepackage {
+		mainClass = "database.application.development.web.WebApplicationStarter"
+		withJarTask jar
+	}
+
+	springBoot {
+		mainClass = "database.application.development.web.WebApplicationStarter"
+	}
+}
