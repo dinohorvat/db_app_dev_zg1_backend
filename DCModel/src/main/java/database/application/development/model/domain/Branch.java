@@ -2,6 +2,7 @@ package database.application.development.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import database.application.development.model.common.BaseModel;
+import database.application.development.model.history.HstBranch;
 import database.application.development.model.util.Views;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,12 +37,12 @@ public class Branch extends BaseModel{
     @JoinColumn(name="LOCATION_ID")
     private Location location;
 
-//    @JsonView(Views.HstBranch.class)
-//    @SortNatural
-//    @OrderBy("id DESC ")
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "BRANCH_ID")
-//    private Set<HstBranch> hstBranches;
+    @JsonView(Views.HstBranch.class)
+    @SortNatural
+    @OrderBy("id DESC ")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "BRANCH_ID")
+    private Set<HstBranch> hstBranches;
 
     @JsonView(Views.Branch.class)
     @SortNatural

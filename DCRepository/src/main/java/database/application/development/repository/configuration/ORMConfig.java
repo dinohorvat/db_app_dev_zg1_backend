@@ -1,7 +1,7 @@
 package database.application.development.repository.configuration;
 
 import database.application.development.model.domain.*;
-import database.application.development.model.history.HstCompany;
+import database.application.development.model.history.*;
 import database.application.development.model.relation.RelCustomerProductTransaction;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -27,7 +27,6 @@ public class ORMConfig {
             configuration.configure();
 
             configuration.addAnnotatedClass(Company.class);
-            configuration.addAnnotatedClass(HstCompany.class);
             configuration.addAnnotatedClass(Branch.class);
             configuration.addAnnotatedClass(Customer.class);
             configuration.addAnnotatedClass(DcsDate.class);
@@ -36,10 +35,16 @@ public class ORMConfig {
             configuration.addAnnotatedClass(Transactions.class);
             configuration.addAnnotatedClass(Location.class);
             configuration.addAnnotatedClass(Product.class);
+            configuration.addAnnotatedClass(RewardPolicy.class);
 
             configuration.addAnnotatedClass(RelCustomerProductTransaction.class);
 
-
+            configuration.addAnnotatedClass(HstCompany.class);
+            configuration.addAnnotatedClass(HstEmployee.class);
+            configuration.addAnnotatedClass(HstBranch.class);
+            configuration.addAnnotatedClass(HstCustomer.class);
+            configuration.addAnnotatedClass(HstProduct.class);
+            configuration.addAnnotatedClass(HstTransaction.class);
 
 
             serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
@@ -49,7 +54,7 @@ public class ORMConfig {
         }
     }
 
-    public Session getSession() throws HibernateException {
+    protected Session getSession() throws HibernateException {
         return ourSessionFactory.openSession();
     }
 
@@ -58,14 +63,22 @@ public class ORMConfig {
         final Session session = new ORMConfig().getSession();
         try {
             System.out.println("querying all the managed entities...");
+            Company company = null;
             Transactions transaction1 = null;
             Employee employee = null;
             Branch branch = null;
+            Customer customer = null;
+
+            HstTransaction hstTransaction = null;
 
             Transaction transaction = session.beginTransaction();
             transaction1 = session.get(Transactions.class,1);
             employee = session.get(Employee.class, 1);
             branch = session.get(Branch.class, 1);
+            company = session.get(Company.class, 1);
+            customer = session.get(Customer.class, 1);
+            hstTransaction = session.get(HstTransaction.class, 1);
+
             transaction.commit();
 
             System.out.println("done...");

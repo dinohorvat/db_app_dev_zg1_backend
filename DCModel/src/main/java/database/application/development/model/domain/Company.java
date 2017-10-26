@@ -24,11 +24,12 @@ import java.util.Set;
 @NoArgsConstructor
 public class Company extends BaseModel{
 
-    public Company(String name, String description, String currency, Location hq_location) {
+    public Company(String name, String description, String currency, Location hq_location, double pointExchangeRate) {
         this.name = name;
         this.description = description;
         this.currency = currency;
         this.hqLocation = hq_location;
+        this.pointExchangeRate = pointExchangeRate;
     }
 
     @JsonView(Views.PrimitiveField.class)
@@ -58,5 +59,19 @@ public class Company extends BaseModel{
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "COMPANY_ID")
     private Set<HstCompany> hstCompanies;
+
+    @JsonView(Views.Company.class)
+    @SortNatural
+    @OrderBy("id ASC ")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "COMPANY_ID")
+    private Set<Branch> branches;
+
+    @JsonView(Views.Company.class)
+    @SortNatural
+    @OrderBy("id ASC ")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "REWARD_POLICY")
+    private Set<RewardPolicy> policies;
 
 }

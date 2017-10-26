@@ -1,5 +1,7 @@
 package database.application.development.model.util;
 
+import database.application.development.model.domain.Product;
+
 public class Views {
 
     //CORE CLASSES
@@ -17,6 +19,8 @@ public class Views {
 
     public interface Employee extends PrimitiveField{}
 
+    public interface Product extends PrimitiveField{}
+
     public interface Transaction extends PrimitiveField{}
 
 
@@ -25,7 +29,13 @@ public class Views {
 
     public interface HstBranch extends Branch{}
 
+    public interface HstEmployee extends Branch{}
+
     public interface HstTransaction extends Transaction{}
+
+    public interface HstCustomer extends Transaction{}
+
+    public interface HstProduct extends Transaction{}
 
 
     //COMPLEX FIELDS
@@ -39,7 +49,7 @@ public class Views {
 
     public interface ComplexFieldProduct{}
 
-    public interface ComplexFiledCustomer{}
+    public interface ComplexFieldCustomer{}
 
 
     //REQUEST ENCODING
@@ -47,10 +57,16 @@ public class Views {
 
     public static class RequestToBranch implements Location, Branch, HstBranch{}
 
-    public static class RequestToTransaction implements Transaction, ComplexFieldProduct, ComplexFiledCustomer{}
+    public static class RequestToCustomer implements Customer, HstCustomer, ComplexFieldProduct, ComplexFieldTransaction{}
 
-    public static class RequestToEmployee implements Employee {}
+    public static class RequestToProduct implements Product, HstProduct{}
 
+    public static class RequestToTransaction implements Transaction, ComplexFieldProduct, ComplexFieldCustomer{}
+
+    public static class RequestToEmployee implements Employee, HstEmployee {}
+
+
+    //REQUEST TO HST
     public static class RequestToCompanyHistory implements PrimitiveField, ComplexFieldCompany{}
 
 }

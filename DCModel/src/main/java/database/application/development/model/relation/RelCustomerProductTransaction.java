@@ -29,7 +29,7 @@ public class RelCustomerProductTransaction extends BaseModel{
     @JoinColumn(name="PRODUCT_ID")
     private Product product;
 
-    @JsonView(Views.ComplexFiledCustomer.class)
+    @JsonView(Views.ComplexFieldCustomer.class)
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
     private Customer customer;

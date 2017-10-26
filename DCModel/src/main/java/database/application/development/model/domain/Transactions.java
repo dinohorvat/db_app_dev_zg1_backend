@@ -52,12 +52,12 @@ public class Transactions extends BaseModel {
     private Set<RelCustomerProductTransaction> dependencies;
 
 
-//    @JsonView(Views.HstTransaction.class)
-//    @SortNatural
-//    @OrderBy("id DESC")
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "TRANSACTION_ID")
-//    private Set<HstTransaction> hstTransactions;
+    @JsonView(Views.HstTransaction.class)
+    @SortNatural
+    @OrderBy("id DESC")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "TRANSACTION_ID")
+    private Set<HstTransaction> hstTransactions;
 
     @JsonView(Views.Transaction.class)
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

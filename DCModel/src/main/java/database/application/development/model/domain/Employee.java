@@ -2,6 +2,8 @@ package database.application.development.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import database.application.development.model.common.BaseModel;
+import database.application.development.model.history.HstCompany;
+import database.application.development.model.history.HstEmployee;
 import database.application.development.model.util.Views;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,4 +43,11 @@ public class Employee extends BaseModel {
     @JsonView(Views.Employee.class)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Branch branch;
+
+    @JsonView(Views.HstEmployee.class)
+    @SortNatural
+    @OrderBy("id DESC")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "EMPLOYEE_ID")
+    private Set<HstEmployee> hstEmployees;
 }
