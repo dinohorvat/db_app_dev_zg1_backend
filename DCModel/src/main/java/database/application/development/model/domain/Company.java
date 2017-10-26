@@ -54,7 +54,7 @@ public class Company extends BaseModel{
 
     @JsonView(Views.HstCompany.class)
     @SortNatural
-    @OrderBy("id ASC")
+    @OrderBy("id DESC")
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "COMPANY_ID")
     private Set<HstCompany> hstCompanies;

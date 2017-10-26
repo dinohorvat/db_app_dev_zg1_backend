@@ -1,8 +1,8 @@
 package database.application.development.repository.configuration;
 
-import database.application.development.model.domain.Company;
-import database.application.development.model.domain.Location;
+import database.application.development.model.domain.*;
 import database.application.development.model.history.HstCompany;
+import database.application.development.model.relation.RelCustomerProductTransaction;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,7 +12,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Map;
 
 /**
  * Created by HrvojeGrgic on 11/10/2017.
@@ -29,7 +28,19 @@ public class ORMConfig {
 
             configuration.addAnnotatedClass(Company.class);
             configuration.addAnnotatedClass(HstCompany.class);
+            configuration.addAnnotatedClass(Branch.class);
+            configuration.addAnnotatedClass(Customer.class);
+            configuration.addAnnotatedClass(DcsDate.class);
+            configuration.addAnnotatedClass(Employee.class);
+            configuration.addAnnotatedClass(RewardPoints.class);
+            configuration.addAnnotatedClass(Transactions.class);
             configuration.addAnnotatedClass(Location.class);
+            configuration.addAnnotatedClass(Product.class);
+
+            configuration.addAnnotatedClass(RelCustomerProductTransaction.class);
+
+
+
 
             serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             ourSessionFactory = configuration.buildSessionFactory(serviceRegistry);
@@ -47,22 +58,16 @@ public class ORMConfig {
         final Session session = new ORMConfig().getSession();
         try {
             System.out.println("querying all the managed entities...");
-            Company co1 = null;
-            Company co_2 = null;
-            final Map metadataMap = session.getSessionFactory().getProperties();
+            Transactions transaction1 = null;
+            Employee employee = null;
+            Branch branch = null;
 
             Transaction transaction = session.beginTransaction();
-            co1 = session.get(Company.class,1);
-//            transaction.commit();
+            transaction1 = session.get(Transactions.class,1);
+            employee = session.get(Employee.class, 1);
+            branch = session.get(Branch.class, 1);
+            transaction.commit();
 
-            Location loc = new Location("HRVATSKS", "SD", "SPLIT","SPLITSKA 1", "21000", null);
-            Company co2 = new Company("FIRMA 2", "MOJA NOVA FIRMA", null, loc);
-//            HstCompany hco2 = new HstCompany("FIRMA 2", "MOJA NOVA FIRMA", null, loc, co2);
-//
-//            int newEntityID = (int) session.save(loc);
-//            transaction.commit();
-
-//            co_2 = session.get(Company.class, 2);
             System.out.println("done...");
         }catch (RuntimeException re){
             re.printStackTrace();

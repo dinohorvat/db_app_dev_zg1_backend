@@ -2,6 +2,20 @@
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 
+### build files ###
+/DCModel/build/
+/DCRepository/build/
+/DCService/build/
+/DCController/build/
+/DCWeb/build/
+
+### out files ###
+/DCModel/out/
+/DCRepository/out/
+/DCService/out/
+/DCController/out/
+/DCWeb/out/
+
 ### STS ###
 .apt_generated
 .classpath

@@ -18,7 +18,7 @@ public class ApplicationInputs {
     private Product product;
     private RewardPoints rewardPoints;
     private RewardPolicy rewardPolicy;
-    private Transaction transaction;
+    private Transactions transaction;
 
 
     public ApplicationInputs setEntityId(int entityId) {
@@ -71,7 +71,7 @@ public class ApplicationInputs {
         return this;
     }
 
-    public ApplicationInputs setTransaction(Transaction transaction) {
+    public ApplicationInputs setTransaction(Transactions transaction) {
         this.transaction = transaction;
         return this;
     }
