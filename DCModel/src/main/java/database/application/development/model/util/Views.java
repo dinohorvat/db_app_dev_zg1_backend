@@ -65,6 +65,8 @@ public class Views {
 
     public static class RequestToEmployee implements Employee, HstEmployee {}
 
+    public static class RequestToLocation implements Location {}
+
 
     //REQUEST TO HST
     public static class RequestToCompanyHistory implements PrimitiveField, ComplexFieldCompany{}
