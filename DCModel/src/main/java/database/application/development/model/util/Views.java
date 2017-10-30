@@ -69,6 +69,17 @@ public class Views {
 
 
     //REQUEST TO HST
+    public static class RequestToBranchHistory implements PrimitiveField, ComplexFieldBranch{}
+
     public static class RequestToCompanyHistory implements PrimitiveField, ComplexFieldCompany{}
+
+    public static class RequestToCustomerHistory implements PrimitiveField, ComplexFieldCustomer{}
+
+    public static class RequestToEmployeeHistory implements PrimitiveField, ComplexFieldEmployee{}
+
+    public static class RequestToProductHistory implements PrimitiveField, ComplexFieldProduct {}
+
+    //TODO: implement transaction and add view
+
 
 }
