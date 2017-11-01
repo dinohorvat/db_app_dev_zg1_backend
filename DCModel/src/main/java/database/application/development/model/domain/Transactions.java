@@ -39,11 +39,7 @@ public class Transactions extends BaseModel {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Branch branch;
 
-    //TODO: fix mapping of points to transaction
-
-    @JsonView(Views.Transaction.class)
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private RewardPoints points;
+    //TODO: possibly include reward points
 
     @JsonView(Views.Transaction.class)
     @SortNatural

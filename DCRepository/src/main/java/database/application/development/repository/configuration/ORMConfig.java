@@ -36,6 +36,7 @@ public class ORMConfig {
             configuration.addAnnotatedClass(Location.class);
             configuration.addAnnotatedClass(Product.class);
             configuration.addAnnotatedClass(RewardPolicy.class);
+            configuration.addAnnotatedClass(Currency.class);
 
             configuration.addAnnotatedClass(RelCustomerProductTransaction.class);
 
