@@ -39,9 +39,10 @@ public class Transactions extends BaseModel {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Branch branch;
 
+    //TODO: fix mapping of points to transaction
+
     @JsonView(Views.Transaction.class)
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private RewardPoints points;
 
     @JsonView(Views.Transaction.class)

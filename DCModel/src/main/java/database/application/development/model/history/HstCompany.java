@@ -3,6 +3,7 @@ package database.application.development.model.history;
 import com.fasterxml.jackson.annotation.JsonView;
 import database.application.development.model.common.HistoryModel;
 import database.application.development.model.domain.Company;
+import database.application.development.model.domain.Currency;
 import database.application.development.model.util.Views;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,8 @@ public class HstCompany extends HistoryModel {
         this.company = company;
         this.name = company.getName();
         this.description = company.getDescription();
-        this.operatingCurrency = company.getCurrency();
+        this.currencyName = company.getCurrency().getName();
+        this.currencyAbrv = company.getCurrency().getAbbreviation();
         this.pointExchangeRate = company.getPointExchangeRate();
     }
 
@@ -43,7 +45,11 @@ public class HstCompany extends HistoryModel {
     @Column(name ="DESCRIPTION")
     private String description;
 
-    @JsonView(Views.PrimitiveField.class)
-    @Column(name ="OPERATING_CURRENCY")
-    private String operatingCurrency;
+    @JsonView(Views.ComplexFieldCurrency.class)
+    @Column(name ="CURRENCY_NAME")
+    private String currencyName;
+
+    @JsonView(Views.ComplexFieldCurrency.class)
+    @Column(name ="CURRENCY_ABRV")
+    private String currencyAbrv;
 }

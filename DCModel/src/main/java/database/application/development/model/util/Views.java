@@ -51,6 +51,8 @@ public class Views {
 
     public interface ComplexFieldCustomer{}
 
+    public interface ComplexFieldCurrency{}
+
 
     //REQUEST ENCODING
     public static class RequestToCompany implements Company, Location, HstCompany{}
@@ -71,7 +73,7 @@ public class Views {
     //REQUEST TO HST
     public static class RequestToBranchHistory implements PrimitiveField, ComplexFieldBranch{}
 
-    public static class RequestToCompanyHistory implements PrimitiveField, ComplexFieldCompany{}
+    public static class RequestToCompanyHistory implements PrimitiveField, ComplexFieldCompany, ComplexFieldCurrency{}
 
     public static class RequestToCustomerHistory implements PrimitiveField, ComplexFieldCustomer{}
 
