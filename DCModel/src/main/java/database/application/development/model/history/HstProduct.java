@@ -19,6 +19,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class HstProduct extends HistoryModel {
 
+    public HstProduct(String changeDesc, Product product) {
+        super(changeDesc);
+        this.name = product.getName();
+        this.description = product.getDescription();
+        this.price = product.getPrice();
+        this.product = product;
+    }
+
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="NAME")
     private String name;

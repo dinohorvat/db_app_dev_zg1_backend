@@ -1,11 +1,13 @@
 package database.application.development.service.impl;
 
 import database.application.development.model.domain.Product;
+import database.application.development.model.history.HstProduct;
 import database.application.development.model.messages.ApplicationInputs;
 import database.application.development.model.messages.OutputHeader;
 import database.application.development.model.messages.Request;
 import database.application.development.model.messages.Response;
 import database.application.development.repository.ProductDao;
+import database.application.development.repository.hst.HstProductDao;
 import database.application.development.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,13 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
     private ProductDao productDao;
+    private HstProductDao hstProductDao;
 
     @Autowired
-    public ProductServiceImpl(ProductDao productDao) {
+    public ProductServiceImpl(ProductDao productDao, HstProductDao hstProductDao) {
+
         this.productDao = productDao;
+        this.hstProductDao = hstProductDao;
     }
 
     @Override
@@ -35,7 +40,9 @@ public class ProductServiceImpl implements ProductService {
     public Response<Product> createProduct(Request<ApplicationInputs> request) {
         Product product = productDao.createProduct(request.getBody().getProduct());
 
-        // TODO: 11/2/2017  insert hst
+        HstProduct hstProduct = new HstProduct("INSERT", product);
+        hstProduct = hstProductDao.createHstProduct(hstProduct);
+        product.getHstProducts().add(hstProduct);
 
         return new Response<>(new OutputHeader(), product);
     }
