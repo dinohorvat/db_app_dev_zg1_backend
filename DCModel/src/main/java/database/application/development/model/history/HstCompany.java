@@ -30,7 +30,7 @@ public class HstCompany extends HistoryModel {
 
 
     @JsonView(Views.ComplexFieldCompany.class)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Company company;
 
     @JsonView(Views.PrimitiveField.class)

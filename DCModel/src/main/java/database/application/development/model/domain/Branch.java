@@ -40,22 +40,22 @@ public class Branch extends BaseModel{
     @JsonView(Views.HstBranch.class)
     @SortNatural
     @OrderBy("id DESC ")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "BRANCH_ID")
+    @OneToMany(mappedBy = "branch", fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Set<HstBranch> hstBranches;
 
     @JsonView(Views.Branch.class)
     @SortNatural
     @OrderBy("id DESC ")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "BRANCH_ID")
+    @OneToMany(mappedBy = "branch", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Set<Transactions> transactions;
 
 
     @JsonView(Views.Branch.class)
     @SortNatural
     @OrderBy("id ASC ")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "BRANCH_ID")
+    @OneToMany(mappedBy = "branch", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Set<Employee> employees;
 }

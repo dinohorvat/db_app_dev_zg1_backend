@@ -27,4 +27,7 @@ public class RewardPoints extends BaseModel {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateFormatter.LOCAL_DATE_TIME_FORMAT)
     @Column(name ="OCCURRED")
     private Timestamp occurred;
+
+    @ManyToOne
+    private Customer customer;
 }

@@ -51,21 +51,21 @@ public class Customer extends BaseModel {
     @JsonView(Views.Customer.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CUSTOMER_ID")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Set<RelCustomerProductTransaction> transactions;
 
     @JsonView(Views.Customer.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CUSTOMER_ID")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Set<RewardPoints> rewardPoints;
 
     @JsonView(Views.HstCustomer.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CUSTOMER_ID")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Set<HstCustomer> hstCustomers;
 }

@@ -14,7 +14,7 @@ import org.hibernate.annotations.SortNatural;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity(name = "transaction")
+@Entity(name = "transactions")
 @Table(name = "TRANSACTION")
 @Getter
 @Setter
@@ -44,21 +44,21 @@ public class Transactions extends BaseModel {
     @JsonView(Views.Transaction.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "TRANSACTION_ID")
-    private Set<RelCustomerProductTransaction> dependencies;
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Set<RelCustomerProductTransaction> transactionItems;
 
 
     @JsonView(Views.HstTransaction.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "TRANSACTION_ID")
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Set<HstTransaction> hstTransactions;
 
     @JsonView(Views.Transaction.class)
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="DATE_ID")
+    @JoinColumn(name = "DATE_ID")
     private DcsDate dcsDate;
 
 

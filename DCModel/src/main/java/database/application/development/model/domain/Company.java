@@ -57,22 +57,22 @@ public class Company extends BaseModel{
     @JsonView(Views.HstCompany.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "COMPANY_ID")
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Set<HstCompany> hstCompanies;
 
     @JsonView(Views.Company.class)
     @SortNatural
     @OrderBy("id ASC ")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "COMPANY_ID")
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Set<Branch> branches;
 
     @JsonView(Views.Company.class)
     @SortNatural
     @OrderBy("id ASC ")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "COMPANY_ID")
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Set<RewardPolicy> policies;
 
 }

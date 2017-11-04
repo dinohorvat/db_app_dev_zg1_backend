@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity(name = "rewardPolicy")
@@ -21,8 +22,12 @@ public class RewardPolicy extends BaseModel{
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="NUM_POINTS")
     private int numPoints;
+
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="AMOUNT_REDUCED")
     private double amountReduced;
+
+    @ManyToOne()
+    private Company company;
 
 }
