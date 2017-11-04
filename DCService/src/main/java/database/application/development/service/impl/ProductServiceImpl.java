@@ -47,10 +47,6 @@ public class ProductServiceImpl implements ProductService {
 
         addToProductHistory("UPDATE", product);
 
-        HstProduct hstProduct = new HstProduct("UPDATE", product);
-        hstProduct = hstProductDao.createHstProduct(hstProduct);
-        product.getHstProducts().add(hstProduct);
-
         return new Response<>(new OutputHeader(), product);
     }
 
