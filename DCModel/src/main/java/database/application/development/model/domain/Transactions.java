@@ -32,11 +32,11 @@ public class Transactions extends BaseModel {
     private TransactionStatus status;
 
     @JsonView(Views.Transaction.class)
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     private Employee employee;
 
     @JsonView(Views.Transaction.class)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Branch branch;
 
     //TODO: possibly include reward points
@@ -49,10 +49,10 @@ public class Transactions extends BaseModel {
     private Set<RelCustomerProductTransaction> transactionItems;
 
 
-    @JsonView(Views.HstTransaction.class)
+    @JsonView(Views.Transaction.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(mappedBy = "transaction", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @PrimaryKeyJoinColumn
     private Set<HstTransaction> hstTransactions;
 

@@ -1,6 +1,7 @@
 package database.application.development.repository.impl;
 
 import database.application.development.model.domain.Transactions;
+import database.application.development.model.util.TransactionStatus;
 import database.application.development.repository.TransactionsDao;
 import database.application.development.repository.configuration.ORMConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +62,8 @@ public class TransactionsDaoImpl extends ORMConfig implements TransactionsDao {
     public void deleteTransactions(Transactions transactions) {
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
-        session.delete(transactions);
+        transactions.setStatus(TransactionStatus.CANCELED);
+        session.update(transactions);
         transaction.commit();
         session.close();
     }

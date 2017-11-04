@@ -20,15 +20,15 @@ import javax.persistence.*;
 public class RelCustomerProductTransaction extends BaseModel{
 
     @JsonView(Views.ComplexFieldTransaction.class)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Transactions transaction;
 
     @JsonView(Views.ComplexFieldProduct.class)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="PRODUCT_ID")
     private Product product;
 
     @JsonView(Views.ComplexFieldCustomer.class)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Customer customer;
 }

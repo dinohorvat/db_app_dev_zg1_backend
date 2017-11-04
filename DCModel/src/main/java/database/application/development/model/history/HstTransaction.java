@@ -23,6 +23,19 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class HstTransaction  extends HistoryModel {
 
+    public HstTransaction(String changeDesc, Transactions transactions) {
+        super(changeDesc);
+        this.status = transactions.getStatus();
+        this.totalPrice = transactions.getTotalPrice();
+        this.employeeId = transactions.getEmployee().getId();
+        this.branchId = transactions.getBranch().getId();
+        this.transaction = transactions;
+        this.employeeUsername = transactions.getEmployee().getUsername();
+        this.branchName = transactions.getBranch().getName();
+        this.transactionExpCompleted = transactions.getDcsDate().getTransactionExpCompleted();
+        this.transactionPlaced = transactions.getDcsDate().getTransactionPlaced();
+    }
+
     @JsonView(Views.PrimitiveField.class)
     @Enumerated(EnumType.STRING)
     @Column(name ="STATUS")
@@ -40,8 +53,9 @@ public class HstTransaction  extends HistoryModel {
     @Column(name ="BRANCH_ID")
     private int branchId;
 
-    @JsonView(Views.ComplexFieldProduct.class)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonView(Views.ComplexFieldTransaction.class)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "TRANSACTION_ID")
     private Transactions transaction;
 
     @JsonView(Views.PrimitiveField.class)
@@ -61,6 +75,4 @@ public class HstTransaction  extends HistoryModel {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateFormatter.LOCAL_DATE_TIME_FORMAT)
     @Column(name ="TRANSACTION_PLACED")
     private Timestamp transactionPlaced;
-
-
 }
