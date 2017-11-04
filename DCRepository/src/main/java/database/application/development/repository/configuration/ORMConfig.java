@@ -69,6 +69,7 @@ public class ORMConfig {
             Employee employee = null;
             Branch branch = null;
             Customer customer = null;
+            Product product = null;
 
             HstTransaction hstTransaction = null;
 
@@ -79,7 +80,11 @@ public class ORMConfig {
             company = session.get(Company.class, 1);
             customer = session.get(Customer.class, 1);
             hstTransaction = session.get(HstTransaction.class, 1);
+            product = session.get(Product.class, 2);
 
+
+            product.setPrice(15);
+            session.update(product);
             transaction.commit();
 
             System.out.println("done...");

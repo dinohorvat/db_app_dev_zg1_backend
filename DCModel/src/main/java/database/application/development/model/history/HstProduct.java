@@ -39,7 +39,7 @@ public class HstProduct extends HistoryModel {
     @Column(name ="PRICE")
     private double price;
 
-    @JsonView(Views.ComplexFieldProduct.class)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_ID")
     private Product product;
 }

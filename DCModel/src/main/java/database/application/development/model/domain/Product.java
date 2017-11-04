@@ -32,8 +32,8 @@ public class Product extends BaseModel {
     @JsonView(Views.HstProduct.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "PRODUCT_ID")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Set<HstProduct> hstProducts;
 
 }

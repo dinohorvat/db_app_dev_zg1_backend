@@ -43,10 +43,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Response<Product> updateProduct(Request<ApplicationInputs> request) {
-        System.out.println();
         Product product = productDao.updateProduct(request.getBody().getProduct());
 
         addToProductHistory("UPDATE", product);
+
+        HstProduct hstProduct = new HstProduct("UPDATE", product);
+        hstProduct = hstProductDao.createHstProduct(hstProduct);
+        product.getHstProducts().add(hstProduct);
 
         return new Response<>(new OutputHeader(), product);
     }
