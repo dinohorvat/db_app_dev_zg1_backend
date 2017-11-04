@@ -22,7 +22,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     public ProductServiceImpl(ProductDao productDao, HstProductDao hstProductDao) {
-
         this.productDao = productDao;
         this.hstProductDao = hstProductDao;
     }
@@ -30,9 +29,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Response<Product> getProductById(Request<ApplicationInputs> request) {
         Product product = productDao.getProductById(request.getBody().getEntityId());
-
-        // TODO: 11/2/2017  insert hst
-
         return new Response<>(new OutputHeader(), product);
     }
 
@@ -40,16 +36,17 @@ public class ProductServiceImpl implements ProductService {
     public Response<Product> createProduct(Request<ApplicationInputs> request) {
         Product product = productDao.createProduct(request.getBody().getProduct());
 
-        HstProduct hstProduct = new HstProduct("INSERT", product);
-        hstProduct = hstProductDao.createHstProduct(hstProduct);
-        product.getHstProducts().add(hstProduct);
+        addToProductHistory("INSERT", product);
 
         return new Response<>(new OutputHeader(), product);
     }
 
     @Override
     public Response<Product> updateProduct(Request<ApplicationInputs> request) {
+        System.out.println();
         Product product = productDao.updateProduct(request.getBody().getProduct());
+
+        addToProductHistory("UPDATE", product);
 
         return new Response<>(new OutputHeader(), product);
     }
@@ -58,8 +55,20 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Request<ApplicationInputs> request) {
         Product product = productDao.getProductById(request.getBody().getEntityId());
 
-        // TODO: 11/2/2017  insert hst
+        addToProductHistory("DELETE", product);
 
         productDao.deleteProduct(product);
+    }
+
+    /**
+     * Adds a new row to the HST_PRODUCT table for this product object.
+     *
+     * @param changeDesc The description of the change (INSERT, UPDATE, or DELETE)
+     * @param product The {@link Product} object which has been changed
+     */
+    private void addToProductHistory(String changeDesc, Product product) {
+        HstProduct hstProduct = new HstProduct(changeDesc, product);
+        hstProduct = hstProductDao.createHstProduct(hstProduct);
+        product.getHstProducts().add(hstProduct);
     }
 }
