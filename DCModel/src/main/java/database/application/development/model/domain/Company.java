@@ -64,7 +64,7 @@ public class Company extends BaseModel{
     @JsonView(Views.Company.class)
     @SortNatural
     @OrderBy("id ASC ")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Set<Branch> branches;
 
