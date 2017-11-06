@@ -1,8 +1,6 @@
 package database.application.development.service.impl;
 
-import database.application.development.model.domain.Product;
 import database.application.development.model.domain.Transactions;
-import database.application.development.model.history.HstProduct;
 import database.application.development.model.history.HstTransaction;
 import database.application.development.model.messages.ApplicationInputs;
 import database.application.development.model.messages.OutputHeader;
@@ -21,11 +19,11 @@ import java.util.Set;
 
 @Service
 @Slf4j
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements TransactionService {
 
-    TransactionsDao transactionsDao;
-    HstTransactionDao hstTransactionDao;
-    RelCustomerProductTransactionDao relationDao;
+    private TransactionsDao transactionsDao;
+    private HstTransactionDao hstTransactionDao;
+    private RelCustomerProductTransactionDao relationDao;
 
     @Autowired
     public TransactionServiceImpl(TransactionsDao transactionsDao, HstTransactionDao hstTransactionDao, RelCustomerProductTransactionDao relationDao) {
@@ -79,10 +77,10 @@ public class TransactionServiceImpl implements TransactionService{
 
 
     /**
-     * Adds a new row to the HST_PRODUCT table for this product object.
+     * Adds a new row to the HST_TRANSACTION table for this product object.
      *
      * @param changeDesc The description of the change (INSERT, UPDATE, or DELETE)
-     * @param transactions The {@link Product} object which has been changed
+     * @param transactions The {@link Transactions} object which has been changed
      */
     private void addToTransactionHistory(String changeDesc, Transactions transactions) {
         HstTransaction hstTransaction = new HstTransaction(changeDesc, transactions);
