@@ -33,9 +33,9 @@ public class Views {
 
     public interface HstTransaction extends Transaction{}
 
-    public interface HstCustomer extends Transaction{}
+    public interface HstCustomer extends Customer{}
 
-    public interface HstProduct extends Transaction{}
+    public interface HstProduct extends Product{}
 
 
     //COMPLEX FIELDS
@@ -80,8 +80,5 @@ public class Views {
     public static class RequestToEmployeeHistory implements PrimitiveField, ComplexFieldEmployee{}
 
     public static class RequestToProductHistory implements PrimitiveField, ComplexFieldProduct {}
-
-    //TODO: implement transaction and add view
-
 
 }

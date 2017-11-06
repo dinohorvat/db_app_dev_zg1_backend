@@ -28,8 +28,7 @@ public class Branch extends BaseModel{
     private String name;
 
     @JsonView(Views.Branch.class)
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="COMPANY_ID")
+    @ManyToOne(fetch = FetchType.EAGER)
     private Company company;
 
     @JsonView(Views.Location.class)

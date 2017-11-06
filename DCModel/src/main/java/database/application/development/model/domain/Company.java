@@ -41,7 +41,7 @@ public class Company extends BaseModel{
     private String description;
 
     @JsonView(Views.Company.class)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CURRENCY_ID")
     private Currency currency;
 
@@ -64,7 +64,7 @@ public class Company extends BaseModel{
     @JsonView(Views.Company.class)
     @SortNatural
     @OrderBy("id ASC ")
-    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Set<Branch> branches;
 

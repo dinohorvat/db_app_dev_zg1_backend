@@ -53,7 +53,6 @@ public class HstCustomer  extends HistoryModel {
     @Column(name ="EMAIL")
     private String email;
 
-    @JsonView(Views.ComplexFieldCustomer.class)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Customer customer;
 }
