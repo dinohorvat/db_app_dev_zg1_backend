@@ -46,9 +46,9 @@ public class TransactionsController extends Serializer{
 
     @PostMapping
     @ApiOperation(value = "Create Transactions", notes = "Implementation for creating a Transactions")
-    public ResponseEntity<Response<Transactions>> createTransactions(@RequestBody Transactions Transactions) throws JsonProcessingException {
+    public ResponseEntity<Response<Transactions>> createTransactions(@RequestBody Transactions transactions) throws JsonProcessingException {
         InputHeader header = new InputHeader();
-        ApplicationInputs inputs = new ApplicationInputs().setTransaction(Transactions);
+        ApplicationInputs inputs = new ApplicationInputs().setTransaction(transactions);
         Response<Transactions> result = transactionsService.createTransactions(new Request<>(header, inputs));
         ResponseEntity<Response<Transactions>> response = new ResponseEntity<Response<Transactions>>(result, HttpStatus.OK);
 
@@ -57,9 +57,9 @@ public class TransactionsController extends Serializer{
 
     @PutMapping
     @ApiOperation(value = "Update Transactions", notes = "Implementation for updating a Transactions")
-    public ResponseEntity<Response<Transactions>> updateTransactions(@RequestBody Transactions Transactions) throws JsonProcessingException {
+    public ResponseEntity<Response<Transactions>> updateTransactions(@RequestBody Transactions transactions) throws JsonProcessingException {
         InputHeader header = new InputHeader();
-        ApplicationInputs inputs = new ApplicationInputs().setTransaction(Transactions);
+        ApplicationInputs inputs = new ApplicationInputs().setTransaction(transactions);
         Response<Transactions> result = transactionsService.updateTransactions(new Request<>(header, inputs));
         ResponseEntity<Response<Transactions>> response = new ResponseEntity<Response<Transactions>>(result, HttpStatus.OK);
 
