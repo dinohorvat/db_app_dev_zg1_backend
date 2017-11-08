@@ -57,7 +57,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Response<Transactions> updateTransactions(Request<ApplicationInputs> request) {
-
         request.getBody().getTransaction().getTransactionItems().forEach((item) ->{
             item.setTransaction(request.getBody().getTransaction());
         });
@@ -77,7 +76,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     /**
-     * Adds a new row to the HST_TRANSACTION table for this product object.
+     * Adds a new row to the HST_TRANSACTION table for this transactions object.
      *
      * @param changeDesc The description of the change (INSERT, UPDATE, or DELETE)
      * @param transactions The {@link Transactions} object which has been changed
