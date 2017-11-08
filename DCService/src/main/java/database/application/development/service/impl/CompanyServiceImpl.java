@@ -38,32 +38,26 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Response<Company> createCompany(Request<ApplicationInputs> request) {
         Company company = companyDAO.createCompany(request.getBody().getCompany());
-
         addToCompanyHistory("INSERT", company);
-
         return new Response<>(new OutputHeader(), company);
     }
 
     @Override
     public Response<Company> updateCompany(Request<ApplicationInputs> request) {
         Company company = companyDAO.updateCompany(request.getBody().getCompany());
-
         addToCompanyHistory("UPDATE", company);
-
         return new Response<>(new OutputHeader(), company);
     }
 
     @Override
     public void deleteCompany(Request<ApplicationInputs> request) {
         Company company = companyDAO.getCompanyById(request.getBody().getEntityId());
-
         addToCompanyHistory("DELETE", company);
-
         companyDAO.deleteCompany(company);
     }
 
     /**
-     * Adds a new row to the HST_COMPANY table for this product object.
+     * Adds a new row to the HST_COMPANY table for this company object.
      *
      * @param changeDesc The description of the change (INSERT, UPDATE, or DELETE)
      * @param company The {@link Company} object which has been changed
