@@ -21,6 +21,7 @@ public class HstBranch extends HistoryModel {
         super(changeDescription);
         this.code = branch.getCode();
         this.name = branch.getName();
+        this.branch = branch;
     }
 
     @JsonView(Views.PrimitiveField.class)

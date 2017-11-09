@@ -36,18 +36,18 @@ public class Employee extends BaseModel {
     @JsonView(Views.Employee.class)
     @SortNatural
     @OrderBy("id DESC ")
-    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<Transactions> transactions;
 
     @JsonView(Views.Employee.class)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Branch branch;
 
     @JsonView(Views.HstEmployee.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Set<HstEmployee> hstEmployees;
 }

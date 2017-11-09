@@ -23,13 +23,15 @@ public class Views {
 
     public interface Transaction extends PrimitiveField{}
 
+    public interface Currency extends PrimitiveField{}
+
 
     //HST FIELDS
     public interface HstCompany extends Company{}
 
     public interface HstBranch extends Branch{}
 
-    public interface HstEmployee extends Branch{}
+    public interface HstEmployee extends Employee{}
 
     public interface HstTransaction extends Transaction{}
 
@@ -68,6 +70,8 @@ public class Views {
     public static class RequestToEmployee implements Employee, HstEmployee {}
 
     public static class RequestToLocation implements Location {}
+
+    public static class RequestToCurrency implements Currency {}
 
 
     //REQUEST TO HST

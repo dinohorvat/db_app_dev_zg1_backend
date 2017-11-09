@@ -19,6 +19,7 @@ public class ApplicationInputs {
     private RewardPoints rewardPoints;
     private RewardPolicy rewardPolicy;
     private Transactions transaction;
+    private Currency currency;
 
 
     public ApplicationInputs setEntityId(int entityId) {
@@ -73,6 +74,11 @@ public class ApplicationInputs {
 
     public ApplicationInputs setTransaction(Transactions transaction) {
         this.transaction = transaction;
+        return this;
+    }
+
+    public ApplicationInputs setCurrency(Currency currency) {
+        this.currency = currency;
         return this;
     }
 }
