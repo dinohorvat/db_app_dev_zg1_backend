@@ -87,6 +87,7 @@ project(':DCWeb') {
 	dependencies {
 		compile project (':DCModel')
 		compile project (':DCService')
+		compile("org.springframework.boot:spring-boot-starter-mail:${springBootVersion}")
 		compile("io.springfox:springfox-swagger2:${swaggerVer}")
 		compile("io.springfox:springfox-swagger-ui:${swaggerVer}")
 	}
