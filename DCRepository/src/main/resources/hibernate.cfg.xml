@@ -4,11 +4,11 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://localhost:3307/DCS</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/DCS</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.username">root</property>
         <!--TODO: Set accordingly to server-->
-        <property name="connection.password">Sold1234</property>
+        <property name="connection.password">k9128smz8pt928mz</property>
         <property name="hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
     </session-factory>
