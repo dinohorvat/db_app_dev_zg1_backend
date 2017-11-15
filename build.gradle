@@ -30,6 +30,10 @@ subprojects{
 
 	dependencies{
 		compile('org.springframework.boot:spring-boot-starter')
+
+		compile group: 'org.hibernate', name: 'hibernate-c3p0', version: '5.2.10.Final'
+
+
 		testCompile('org.springframework.boot:spring-boot-starter-test')
 		compile 'org.springframework.boot:spring-boot-starter-web'
 
