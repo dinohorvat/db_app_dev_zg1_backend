@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity(name = "branch")
@@ -19,6 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Branch extends BaseModel{
 
+    @NotNull
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="CODE")
     private String code;

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by HrvojeGrgic on 11/10/2017.
@@ -17,6 +18,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class BaseModel {
 
+    @NotNull
     @JsonView(Views.PrimitiveField.class)
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
