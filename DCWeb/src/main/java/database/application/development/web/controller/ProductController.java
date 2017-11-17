@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("product")
@@ -40,6 +42,15 @@ public class ProductController extends Serializer {
 
         Response<Product> result = productService.getProductById(new Request<>(header, inputs));
         ResponseEntity<Response<Product>> response = new ResponseEntity<Response<Product>>(result, HttpStatus.OK);
+
+        return serializeResponse(result, new Views.RequestToProduct());
+    }
+
+    @GetMapping()
+    @ApiOperation(value = "Find Product by ID", notes = "Implementation for getting a Product by ID")
+    public ResponseEntity<Response<Product>> getAllProducts() throws JsonProcessingException {
+        Response<List<Product>> result = productService.getAllProducts();
+        ResponseEntity<Response<List<Product>>> response = new ResponseEntity<Response<List<Product>>>(result, HttpStatus.OK);
 
         return serializeResponse(result, new Views.RequestToProduct());
     }

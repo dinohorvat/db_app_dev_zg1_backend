@@ -8,10 +8,13 @@ import database.application.development.model.messages.Request;
 import database.application.development.model.messages.Response;
 import database.application.development.repository.ProductDao;
 import database.application.development.repository.hst.HstProductDao;
+import database.application.development.repository.jpa.ProductRepository;
 import database.application.development.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -19,6 +22,9 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductDao productDao;
     private HstProductDao hstProductDao;
+
+//    @Autowired
+//    private ProductRepository productRepository;
 
     @Autowired
     public ProductServiceImpl(ProductDao productDao, HstProductDao hstProductDao) {
@@ -30,6 +36,12 @@ public class ProductServiceImpl implements ProductService {
     public Response<Product> getProductById(Request<ApplicationInputs> request) {
         Product product = productDao.getProductById(request.getBody().getEntityId());
         return new Response<>(new OutputHeader(), product);
+    }
+
+    @Override
+    public Response<List<Product>> getAllProducts() {
+        List<Product> products = productDao.getAllProducts();
+        return new Response<>(new OutputHeader(), products);
     }
 
     @Override
