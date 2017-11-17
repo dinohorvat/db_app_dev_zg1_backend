@@ -70,9 +70,9 @@ public class ProductDaoImpl extends ORMConfig implements ProductDao {
             List<Product> products = new ArrayList<>();
             RowSetFactory rf =  RowSetProvider.newFactory();
             RowSet rowSet = rf.createJdbcRowSet();
-            rowSet.setUrl("jdbc:mysql://localhost:3307/DCS");
+            rowSet.setUrl("jdbc:mysql://localhost:3306/DCS");
             rowSet.setUsername("root");
-            rowSet.setPassword("Sold1234");
+            rowSet.setPassword("k9128smz8pt928mz");
 
             rowSet.setCommand("Select ID, PRICE, NAME from PRODUCT");
             rowSet.execute();
