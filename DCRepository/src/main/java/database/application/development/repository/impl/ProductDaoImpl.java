@@ -6,9 +6,17 @@ import database.application.development.repository.configuration.ORMConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
+
+import javax.sql.RowSet;
+import javax.sql.rowset.RowSetFactory;
+import javax.sql.rowset.RowSetProvider;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dinohorvat on 30/10/2017.
@@ -54,6 +62,35 @@ public class ProductDaoImpl extends ORMConfig implements ProductDao {
         session.close();
 
         return getProductById(newEntityId);
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        try {
+            List<Product> products = new ArrayList<>();
+            RowSetFactory rf =  RowSetProvider.newFactory();
+            RowSet rowSet = rf.createJdbcRowSet();
+            rowSet.setUrl("jdbc:mysql://localhost:3307/DCS");
+            rowSet.setUsername("root");
+            rowSet.setPassword("Sold1234");
+
+            rowSet.setCommand("Select ID, PRICE, NAME from PRODUCT");
+            rowSet.execute();
+
+            while (rowSet.next()){
+                Product product = new Product();
+                product.setId(rowSet.getInt("ID"));
+                product.setPrice(rowSet.getDouble("PRICE"));
+                product.setName(rowSet.getString("NAME"));
+                products.add(product);
+            }
+
+            rowSet.close();
+            return products;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
