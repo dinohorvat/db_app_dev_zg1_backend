@@ -3,7 +3,6 @@ package database.application.development.model.history;
 import com.fasterxml.jackson.annotation.JsonView;
 import database.application.development.model.common.HistoryModel;
 import database.application.development.model.domain.Company;
-import database.application.development.model.domain.Currency;
 import database.application.development.model.util.Views;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

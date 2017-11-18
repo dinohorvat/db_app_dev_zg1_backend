@@ -3,8 +3,6 @@ package database.application.development.model.history;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import database.application.development.model.common.HistoryModel;
-import database.application.development.model.domain.Branch;
-import database.application.development.model.domain.Employee;
 import database.application.development.model.domain.Transactions;
 import database.application.development.model.util.DateFormatter;
 import database.application.development.model.util.TransactionStatus;

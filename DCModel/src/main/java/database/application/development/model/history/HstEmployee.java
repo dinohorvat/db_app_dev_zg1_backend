@@ -1,9 +1,7 @@
 package database.application.development.model.history;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import database.application.development.model.common.BaseModel;
 import database.application.development.model.common.HistoryModel;
-import database.application.development.model.domain.Customer;
 import database.application.development.model.domain.Employee;
 import database.application.development.model.util.Views;
 import lombok.Getter;

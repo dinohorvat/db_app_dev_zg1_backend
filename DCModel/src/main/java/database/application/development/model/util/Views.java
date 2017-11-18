@@ -1,7 +1,5 @@
 package database.application.development.model.util;
 
-import database.application.development.model.domain.Product;
-
 public class Views {
 
     //CORE CLASSES

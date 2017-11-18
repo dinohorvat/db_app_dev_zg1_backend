@@ -3,7 +3,6 @@ package database.application.development.model.domain;
 import com.fasterxml.jackson.annotation.JsonView;
 import database.application.development.model.common.BaseModel;
 import database.application.development.model.history.HstCustomer;
-import database.application.development.model.history.HstTransaction;
 import database.application.development.model.relation.RelCustomerProductTransaction;
 import database.application.development.model.util.Views;
 import lombok.Getter;

@@ -8,7 +8,6 @@ import database.application.development.model.messages.Request;
 import database.application.development.model.messages.Response;
 import database.application.development.repository.ProductDao;
 import database.application.development.repository.hst.HstProductDao;
-import database.application.development.repository.jpa.ProductRepository;
 import database.application.development.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
