@@ -68,6 +68,15 @@ public class CustomerController extends Serializer {
         mailService.sendMail(new Request<>(header, inputs));
     }
 
+    @PostMapping("sendMailToAll")
+    @ApiOperation(value = "Send an email to every customer", notes = "Like the sendMail method, this takes an Email object, NOT a customer object. Setting an address in the email object is unnecessary as it will be overwritten.")
+    public void sendMailToAll(@RequestBody Email email) throws JsonProcessingException {
+        InputHeader header = new InputHeader();
+        ApplicationInputs inputs = new ApplicationInputs().setEmail(email);
+
+        mailService.sendMailToAll(new Request<>(header, inputs));
+    }
+
     @PostMapping
     @ApiOperation(value = "Create Customer", notes = "Implementation for creating a Customer")
     public ResponseEntity<Response<Customer>> createCustomer(@RequestBody Customer customer) throws JsonProcessingException {

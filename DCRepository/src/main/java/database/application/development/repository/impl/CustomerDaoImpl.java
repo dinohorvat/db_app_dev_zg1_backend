@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by HrvojeGrgic on 11/10/2017.
  */
@@ -44,7 +46,21 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
         Customer customer = (Customer) session.createQuery(hql)
                 .setString("email", email)
                 .uniqueResult();
+
+        session.close();
         return customer;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<String> getAllCustomerEmails() {
+        Session session = this.getSession();
+
+        String hql = "SELECT email FROM customer";
+        List<String> emails = session.createQuery(hql).list();
+
+        session.close();
+        return emails;
     }
 
     @Override

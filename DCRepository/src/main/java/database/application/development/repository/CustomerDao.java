@@ -12,6 +12,8 @@ public interface CustomerDao {
 
     Customer getCustomerByEmail(String email);
 
+    List<String> getAllCustomerEmails();
+
     Customer updateCustomer(Customer customer);
 
     Customer createCustomer(Customer customer);

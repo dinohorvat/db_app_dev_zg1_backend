@@ -1,14 +1,23 @@
 package database.application.development.model.util;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 import org.springframework.mail.SimpleMailMessage;
 
 /**
  * A class which represents an email to be sent to a customer.
  */
 @AllArgsConstructor
+@NoArgsConstructor
+@Setter
 public class Email {
-    private String destinationEmail, subject, text;
+    // Can be null, e.g. in the event of a broadcast email
+    private String destinationEmail;
+
+    @NonNull
+    private String subject, text;
 
     /**
      * Create a {@link SimpleMailMessage} to be sent by the MailService implementation class.

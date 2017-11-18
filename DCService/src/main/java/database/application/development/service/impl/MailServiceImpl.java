@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class MailServiceImpl implements MailService {
 
     private JavaMailSender mailSender;
-    private CustomerDao customerDao; // Will be used if sendAll and sendBulk methods are implemented
+    private CustomerDao customerDao;
 
     @Autowired
     public MailServiceImpl(JavaMailSender mailSender, CustomerDao customerDao) {
@@ -27,5 +29,20 @@ public class MailServiceImpl implements MailService {
     public void sendMail(Request<ApplicationInputs> request) {
         Email email = request.getBody().getEmail();
         mailSender.send(email.createSimpleMailMessage());
+    }
+
+    /**
+     * Fetch all customer emails from the DB and send an identical email to each.
+     *
+     * @param request The {@link Request} containing the {@link Email} object to be sent.
+     */
+    @Override
+    public void sendMailToAll(Request<ApplicationInputs> request) {
+        List<String> customerEmails = customerDao.getAllCustomerEmails();
+        Email broadcastEmail = request.getBody().getEmail();
+        for (String customerEmail : customerEmails) {
+            broadcastEmail.setDestinationEmail(customerEmail);
+            mailSender.send(broadcastEmail.createSimpleMailMessage());
+        }
     }
 }
