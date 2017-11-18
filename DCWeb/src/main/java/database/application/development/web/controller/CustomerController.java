@@ -7,14 +7,20 @@ import database.application.development.model.messages.ApplicationInputs;
 import database.application.development.model.messages.InputHeader;
 import database.application.development.model.messages.Request;
 import database.application.development.model.messages.Response;
+import database.application.development.model.util.Email;
 import database.application.development.model.util.Views;
 import database.application.development.service.CustomerService;
+import database.application.development.service.MailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -25,11 +31,13 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController extends Serializer {
 
     private CustomerService customerService;
+    private MailService mailService;
 
     @Autowired
-    public CustomerController(CustomerService customerService, ObjectMapper mapper) {
+    public CustomerController(CustomerService customerService, MailService mailService, ObjectMapper mapper) {
         super(mapper);
         this.customerService = customerService;
+        this.mailService = mailService;
     }
 
     @GetMapping("{id}")
@@ -42,6 +50,15 @@ public class CustomerController extends Serializer {
         ResponseEntity<Response<Customer>> response = new ResponseEntity<Response<Customer>>(result, HttpStatus.OK);
 
         return serializeResponse(result, new Views.RequestToCustomer());
+    }
+
+    @PostMapping("email")
+    @ApiOperation(value = "Send an email to the specified customer email", notes = "This takes an Email object, NOT a customer object. Technically, this method could send to any email address, not just a customer's,  but it was placed within the Customer controller as it is currently the only entity with an email address.")
+    public void sendMail(@RequestBody Email email) throws JsonProcessingException {
+        InputHeader header = new InputHeader();
+        ApplicationInputs inputs = new ApplicationInputs().setEmail(email);
+
+        mailService.sendMail(new Request<>(header, inputs));
     }
 
     @PostMapping
