@@ -1,7 +1,7 @@
 package database.application.development.web.controller.exceptions;
 
 import database.application.development.repository.exceptions.RepositoryException;
-import database.application.development.service.excetions.ServiceException;
+import database.application.development.service.exceptions.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;

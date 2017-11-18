@@ -1,4 +1,4 @@
-package database.application.development.service.excetions;
+package database.application.development.service.exceptions;
 
 import database.application.development.repository.exceptions.RepositoryException;
 import lombok.extern.slf4j.Slf4j;

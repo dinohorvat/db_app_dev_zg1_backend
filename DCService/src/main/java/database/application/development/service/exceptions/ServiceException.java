@@ -1,4 +1,4 @@
-package database.application.development.service.excetions;
+package database.application.development.service.exceptions;
 
 public class ServiceException extends RuntimeException {
     public ServiceException (String exMsg){
