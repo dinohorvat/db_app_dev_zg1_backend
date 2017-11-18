@@ -1,6 +1,7 @@
 package database.application.development.model.messages;
 
 import database.application.development.model.domain.*;
+import database.application.development.model.util.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,10 @@ public class ApplicationInputs {
     private Transactions transaction;
     private Currency currency;
 
+    /**
+     * Object representing an email. This object does NOT represent a database table, as the above.
+     */
+    private Email email;
 
     public ApplicationInputs setEntityId(int entityId) {
         this.entityId = entityId;
@@ -79,6 +84,11 @@ public class ApplicationInputs {
 
     public ApplicationInputs setCurrency(Currency currency) {
         this.currency = currency;
+        return this;
+    }
+
+    public ApplicationInputs setEmail(Email email) {
+        this.email = email;
         return this;
     }
 }
