@@ -31,7 +31,7 @@ subprojects{
 	dependencies{
 		compile('org.springframework.boot:spring-boot-starter')
 
-		compile group: 'org.hibernate', name: 'hibernate-c3p0', version: '5.2.10.Final'
+		compile group: 'org.hibernate', name: 'hibernate-c3p0', version: '5.1.10.Final'
 
 
 		testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -64,14 +64,14 @@ subprojects{
 
 project(':DCModel'){
 	dependencies{
-		compile("org.hibernate:hibernate-core:5.2.10.Final")
+		compile("org.hibernate:hibernate-core:5.1.10.Final")
 	}
 }
 project(':DCRepository'){
 	dependencies {
 		compile project(':DCModel')
 		compile("org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}")
-		compile("org.hibernate:hibernate-core:5.2.10.Final")
+		compile("org.hibernate:hibernate-core:5.1.10.Final")
 		testCompile group: 'org.testng', name: 'testng', version: "${springNgTestVersion}"
 		testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 

@@ -33,6 +33,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Response<Customer> getCustomerByEmail(Request<ApplicationInputs> request) {
+        Customer customer = customerDao.getCustomerByEmail(request.getBody().getCustomerEmail());
+        return new Response<>(new OutputHeader(), customer);
+    }
+
+    @Override
     public Response<Customer> createCustomer(Request<ApplicationInputs> request) {
         Customer customer = customerDao.createCustomer(request.getBody().getCustomer());
 

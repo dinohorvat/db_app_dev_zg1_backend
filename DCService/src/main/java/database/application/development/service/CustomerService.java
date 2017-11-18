@@ -9,6 +9,8 @@ public interface CustomerService {
 
     Response<Customer> getCustomerById(Request<ApplicationInputs> request);
 
+    Response<Customer> getCustomerByEmail(Request<ApplicationInputs> request);
+
     Response<Customer> createCustomer(Request<ApplicationInputs> request);
 
     Response<Customer> updateCustomer(Request<ApplicationInputs> request);

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ApplicationInputs {
     private int entityId;
+    private String customerEmail;
 
     private Branch branch;
     private Company company;
@@ -29,6 +30,11 @@ public class ApplicationInputs {
 
     public ApplicationInputs setEntityId(int entityId) {
         this.entityId = entityId;
+        return this;
+    }
+
+    public ApplicationInputs setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
         return this;
     }
 
@@ -87,6 +93,12 @@ public class ApplicationInputs {
         return this;
     }
 
+    /**
+     * Set the email object to be sent to one or more customers.
+     *
+     * @param email The email object to be sent.
+     * @return This {@link ApplicationInputs}.
+     */
     public ApplicationInputs setEmail(Email email) {
         this.email = email;
         return this;

@@ -36,6 +36,18 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public Customer getCustomerByEmail(String email) {
+        Session session = this.getSession();
+
+        String hql = "FROM customer WHERE email = :email";
+        Customer customer = (Customer) session.createQuery(hql)
+                .setString("email", email)
+                .uniqueResult();
+        return customer;
+    }
+
+    @Override
     public Customer updateCustomer(Customer customer) {
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();

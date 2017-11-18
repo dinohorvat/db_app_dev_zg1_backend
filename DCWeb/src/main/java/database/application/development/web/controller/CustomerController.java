@@ -13,14 +13,10 @@ import database.application.development.service.CustomerService;
 import database.application.development.service.MailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -52,7 +48,18 @@ public class CustomerController extends Serializer {
         return serializeResponse(result, new Views.RequestToCustomer());
     }
 
-    @PostMapping("email")
+    @PostMapping("findByEmail")
+    @ApiOperation(value = "Find customer by Email", notes = "Needs to be a post method as the top-level domain (i.e. '.com,' '.org,' etc. get stripped when using GET.")
+    public ResponseEntity<Response<Customer>> getCustomerByEmail(@RequestBody String email) throws JsonProcessingException {
+        InputHeader header = new InputHeader();
+        ApplicationInputs inputs = new ApplicationInputs().setCustomerEmail(email);
+
+        Response<Customer> result = customerService.getCustomerByEmail(new Request<>(header, inputs));
+
+        return serializeResponse(result, new Views.RequestToCustomer());
+    }
+
+    @PostMapping("sendMail")
     @ApiOperation(value = "Send an email to the specified customer email", notes = "This takes an Email object, NOT a customer object. Technically, this method could send to any email address, not just a customer's,  but it was placed within the Customer controller as it is currently the only entity with an email address.")
     public void sendMail(@RequestBody Email email) throws JsonProcessingException {
         InputHeader header = new InputHeader();
