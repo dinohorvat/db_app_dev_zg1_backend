@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Entity(name = "rewardPoints")
@@ -19,10 +22,13 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class RewardPoints extends BaseModel {
 
+    @NotNull
+    @Size(min=1, max=11)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="AMOUNT")
     private int amount;
 
+    @Null
     @JsonView(Views.PrimitiveField.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateFormatter.LOCAL_DATE_TIME_FORMAT)
     @Column(name ="OCCURRED")

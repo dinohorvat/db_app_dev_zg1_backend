@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Null;
 import java.sql.Timestamp;
 
 @Entity(name = "dcsDate")
@@ -22,11 +23,13 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class DcsDate extends BaseModel{
 
+    @Null
     @JsonView(Views.PrimitiveField.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateFormatter.LOCAL_DATE_TIME_FORMAT)
     @Column(name ="TRANSACTION_PLACED")
     private Timestamp transactionPlaced;
 
+    @Null
     @JsonView(Views.PrimitiveField.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateFormatter.LOCAL_DATE_TIME_FORMAT)
     @Column(name ="TRANSACTION_EXP_COMPLETED")

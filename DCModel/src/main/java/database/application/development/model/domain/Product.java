@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 @Entity(name = "product")
@@ -19,12 +20,21 @@ import java.util.Set;
 @NoArgsConstructor
 public class Product extends BaseModel {
 
+    @NotNull
+    @Size(min=1, max=200)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="NAME")
     private String name;
+
+    @Null
+    @Max(2000)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="DESCRIPTION")
     private String description;
+
+    @NotNull
+    @DecimalMin("0.01")
+    @DecimalMax("10000000.00")
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="PRICE")
     private double price;

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 @Entity(name = "hstTransaction")
@@ -41,14 +42,21 @@ public class HstTransaction  extends HistoryModel {
     @Column(name ="STATUS")
     private TransactionStatus status;
 
+    @NotNull
+    @DecimalMin("0.01")
+    @DecimalMax("10000000.00")
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="TOTAL_PRICE")
     private double totalPrice;
 
+    @NotNull
+    @Min(1)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="EMPLOYEE_ID")
     private int employeeId;
 
+    @NotNull
+    @Min(1)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="BRANCH_ID")
     private int branchId;
@@ -58,19 +66,25 @@ public class HstTransaction  extends HistoryModel {
     @JoinColumn(name = "TRANSACTION_ID")
     private Transactions transaction;
 
+    @NotNull
+    @Size(min=1, max=50)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="EMPLOYEE_USERNAME")
     private String employeeUsername;
 
+    @Null
+    @Max(200)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="BRANCH_NAME")
     private String branchName;
 
+    @Null
     @JsonView(Views.PrimitiveField.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateFormatter.LOCAL_DATE_TIME_FORMAT)
     @Column(name ="TRANSACTION_EXP_COMPLETED")
     private Timestamp transactionExpCompleted;
 
+    @Null
     @JsonView(Views.PrimitiveField.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateFormatter.LOCAL_DATE_TIME_FORMAT)
     @Column(name ="TRANSACTION_PLACED")

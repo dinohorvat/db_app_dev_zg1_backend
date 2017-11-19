@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity(name = "hst_company")
 @Table(name = "HST_COMPANY")
@@ -33,22 +34,33 @@ public class HstCompany extends HistoryModel {
     @ManyToOne(fetch = FetchType.EAGER)
     private Company company;
 
+    @NotNull
+    @DecimalMin("0.01")
+    @DecimalMax("10000000.00")
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="POINTS_CONVERSION_RATE")
     private double pointExchangeRate;
 
+    @NotNull
+    @Size(min=1, max=200)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="NAME")
     private String name;
 
+    @Null
+    @Max(2000)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="DESCRIPTION")
     private String description;
 
+    @Null
+    @Max(45)
     @JsonView(Views.ComplexFieldCurrency.class)
     @Column(name ="CURRENCY_NAME")
     private String currencyName;
 
+    @Null
+    @Max(5)
     @JsonView(Views.ComplexFieldCurrency.class)
     @Column(name ="CURRENCY_ABRV")
     private String currencyAbrv;

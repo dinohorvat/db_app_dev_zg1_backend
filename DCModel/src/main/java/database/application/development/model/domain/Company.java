@@ -11,6 +11,7 @@ import org.hibernate.annotations.SortNatural;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -32,10 +33,14 @@ public class Company extends BaseModel{
         this.pointExchangeRate = pointExchangeRate;
     }
 
+    @NotNull
+    @Size(min=1, max=200)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="NAME")
     private String name;
 
+    @Null
+    @Max(2000)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="DESCRIPTION")
     private String description;
@@ -45,6 +50,9 @@ public class Company extends BaseModel{
     @JoinColumn(name = "CURRENCY_ID")
     private Currency currency;
 
+    @NotNull
+    @DecimalMin("0.01")
+    @DecimalMax("10000000.00")
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="POINTS_CONVERSION_RATE")
     private double pointExchangeRate;

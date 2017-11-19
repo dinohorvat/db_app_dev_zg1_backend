@@ -12,6 +12,9 @@ import lombok.Setter;
 import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity(name = "transactions")
@@ -22,6 +25,9 @@ import java.util.Set;
 public class Transactions extends BaseModel {
 
 
+    @NotNull
+    @DecimalMin("0.01")
+    @DecimalMax("10000000.00")
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="TOTAL_PRICE")
     private double totalPrice;

@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 
 @Entity(name = "hstBranch")
 @Table(name = "HST_BRANCH")
@@ -24,10 +28,14 @@ public class HstBranch extends HistoryModel {
         this.branch = branch;
     }
 
+    @NotNull
+    @Size(min=1, max=45)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="CODE")
     private String code;
 
+    @Null
+    @Max(200)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="NAME")
     private String name;

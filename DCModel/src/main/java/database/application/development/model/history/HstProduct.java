@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity(name = "hstProduct")
 @Table(name = "HST_PRODUCT")
@@ -27,14 +28,21 @@ public class HstProduct extends HistoryModel {
         this.product = product;
     }
 
+    @NotNull
+    @Size(min=1, max=200)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="NAME")
     private String name;
 
+    @Null
+    @Max(2000)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="DESCRIPTION")
     private String description;
 
+    @NotNull
+    @DecimalMin("0.01")
+    @DecimalMax("10000000.00")
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="PRICE")
     private double price;

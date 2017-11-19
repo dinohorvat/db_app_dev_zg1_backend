@@ -10,6 +10,8 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Null;
 
 @Entity(name = "currency")
 @Table(name = "CURRENCIES")
@@ -18,10 +20,14 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Currency extends BaseModel{
 
+    @Null
+    @Max(45)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="NAME")
     private String name;
 
+    @Null
+    @Max(5)
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="ABBREVIATION")
     private String abbreviation;
