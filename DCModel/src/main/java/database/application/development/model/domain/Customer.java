@@ -50,7 +50,7 @@ public class Customer extends BaseModel {
     @JsonView(Views.Customer.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<RelCustomerProductTransaction> transactions;
 

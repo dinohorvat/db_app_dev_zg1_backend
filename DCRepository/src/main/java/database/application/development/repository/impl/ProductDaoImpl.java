@@ -65,31 +65,13 @@ public class ProductDaoImpl extends ORMConfig implements ProductDao {
 
     @Override
     public List<Product> getAllProducts() {
-        try {
-            List<Product> products = new ArrayList<>();
-            RowSetFactory rf =  RowSetProvider.newFactory();
-            RowSet rowSet = rf.createJdbcRowSet();
-            rowSet.setUrl("jdbc:mysql://localhost:3306/DCS");
-            rowSet.setUsername("root");
-            rowSet.setPassword("k9128smz8pt928mz");
+        Session session = this.getSession();
 
-            rowSet.setCommand("Select ID, PRICE, NAME from PRODUCT");
-            rowSet.execute();
+        String hql = "FROM product ";
+        List<Product> products = session.createQuery(hql).list();
 
-            while (rowSet.next()){
-                Product product = new Product();
-                product.setId(rowSet.getInt("ID"));
-                product.setPrice(rowSet.getDouble("PRICE"));
-                product.setName(rowSet.getString("NAME"));
-                products.add(product);
-            }
-
-            rowSet.close();
-            return products;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        session.close();
+        return products;
     }
 
     @Override

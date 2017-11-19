@@ -4,8 +4,10 @@ import database.application.development.model.domain.Customer;
 import database.application.development.repository.CustomerDao;
 import database.application.development.repository.configuration.ORMConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -36,6 +38,20 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
 
         return customer;
     }
+
+//    TODO: create search
+//    public List<Customer> searchCustomer(Customer customer){
+//        Session session = this.getSession();
+//
+//        Criteria cr = session.createCriteria(Customer.class);
+//        cr.add(Restrictions.ilike("firstname", "%"+customer.getFirstname()+"%"));
+//        cr.add(Restrictions.ilike("lastname", "%"+customer.getLastname()+"%"));
+//        cr.add(Restrictions.ilike("email", "%"+customer.getEmail()+"%"));
+//
+//        List<Customer> results = cr.list();
+//
+//        return results;
+//    }
 
     @Override
     @SuppressWarnings("unchecked")

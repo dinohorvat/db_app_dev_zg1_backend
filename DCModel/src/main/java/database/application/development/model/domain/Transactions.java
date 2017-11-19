@@ -52,7 +52,7 @@ public class Transactions extends BaseModel {
     @JsonView(Views.Transaction.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(mappedBy = "transaction", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<HstTransaction> hstTransactions;
 

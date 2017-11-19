@@ -1,6 +1,7 @@
 package database.application.development.service.impl;
 
 import database.application.development.model.domain.Customer;
+import database.application.development.model.domain.RewardPoints;
 import database.application.development.model.history.HstCustomer;
 import database.application.development.model.messages.ApplicationInputs;
 import database.application.development.model.messages.OutputHeader;
@@ -12,6 +13,9 @@ import database.application.development.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Service
 @Slf4j
@@ -49,6 +53,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Response<Customer> updateCustomer(Request<ApplicationInputs> request) {
+
+        request.getBody().getCustomer().getRewardPoints().forEach(rewardPoints -> {
+            rewardPoints.setCustomer(request.getBody().getCustomer());
+
+            if(rewardPoints.getOccurred() == null){
+                Date date = new Date();
+                Timestamp timestamp = new Timestamp(date.getTime());
+                rewardPoints.setOccurred(timestamp);
+            }
+        });
+
         Customer customer = customerDao.updateCustomer(request.getBody().getCustomer());
 
         addToCustomerHistory("UPDATE", customer);

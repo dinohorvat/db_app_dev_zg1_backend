@@ -3,6 +3,7 @@ package database.application.development.repository.configuration;
 import database.application.development.model.domain.*;
 import database.application.development.model.history.*;
 import database.application.development.model.relation.RelCustomerProductTransaction;
+import database.application.development.repository.impl.CustomerDaoImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +12,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 
 /**
@@ -64,28 +67,33 @@ public class ORMConfig {
         final Session session = new ORMConfig().getSession();
         try {
             System.out.println("querying all the managed entities...");
-            Company company = null;
-            Transactions transaction1 = null;
-            Employee employee = null;
-            Branch branch = null;
-            Customer customer = null;
-            Product product = null;
+//            Company company = null;
+//            Transactions transaction1 = null;
+//            Employee employee = null;
+//            Branch branch = null;
+//            Customer customer = null;
+//            Product product = null;
+//
+//            HstTransaction hstTransaction = null;
+//
+//            Transaction transaction = session.beginTransaction();
+//            transaction1 = session.get(Transactions.class,1);
+//            employee = session.get(Employee.class, 1);
+//            branch = session.get(Branch.class, 1);
+//            company = session.get(Company.class, 1);
+//            customer = session.get(Customer.class, 1);
+//            hstTransaction = session.get(HstTransaction.class, 1);
+//            product = session.get(Product.class, 2);
+//
+//
+//            product.setPrice(15);
+//            session.update(product);
+//            transaction.commit();
 
-            HstTransaction hstTransaction = null;
-
-            Transaction transaction = session.beginTransaction();
-            transaction1 = session.get(Transactions.class,1);
-            employee = session.get(Employee.class, 1);
-            branch = session.get(Branch.class, 1);
-            company = session.get(Company.class, 1);
-            customer = session.get(Customer.class, 1);
-            hstTransaction = session.get(HstTransaction.class, 1);
-            product = session.get(Product.class, 2);
-
-
-            product.setPrice(15);
-            session.update(product);
-            transaction.commit();
+            Customer customer = new Customer();
+            customer.setFirstname("Din");
+            CustomerDaoImpl dao = new CustomerDaoImpl();
+//            List list = dao.searchCustomer(customer);
 
             System.out.println("done...");
         }catch (RuntimeException re){

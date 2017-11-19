@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 @Service
@@ -43,6 +45,10 @@ public class TransactionServiceImpl implements TransactionService {
         Set<RelCustomerProductTransaction> relations = request.getBody().getTransaction().getTransactionItems();
         request.getBody().getTransaction().setTransactionItems(null);
 
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+        request.getBody().getTransaction().getDcsDate().setTransactionPlaced(timestamp);
+
         Transactions transactions = this.transactionsDao.createTransactions(request.getBody().getTransaction());
         addToTransactionHistory("INSERT", transactions);
 
@@ -59,6 +65,10 @@ public class TransactionServiceImpl implements TransactionService {
     public Response<Transactions> updateTransactions(Request<ApplicationInputs> request) {
         request.getBody().getTransaction().getTransactionItems().forEach((item) ->{
             item.setTransaction(request.getBody().getTransaction());
+        });
+
+        request.getBody().getTransaction().getHstTransactions().forEach(hstTransaction -> {
+            hstTransaction.setTransaction(request.getBody().getTransaction());
         });
 
         Transactions transactions = this.transactionsDao.updateTransactions(request.getBody().getTransaction());
