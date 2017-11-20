@@ -10,6 +10,8 @@ import java.util.List;
 public interface CustomerDao {
     Customer getCustomerById(int entityId);
 
+    List<Customer> searchCustomer(Customer customer);
+
     Customer getCustomerByEmail(String email);
 
     List<String> getAllCustomerEmails();

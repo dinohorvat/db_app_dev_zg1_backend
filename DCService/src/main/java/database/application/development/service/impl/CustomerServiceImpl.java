@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -78,6 +79,12 @@ public class CustomerServiceImpl implements CustomerService {
         addToCustomerHistory("DELETE", customer);
 
         customerDao.deleteCustomer(customer);
+    }
+
+    @Override
+    public Response<List<Customer>> searchCustomer(Request<ApplicationInputs> request){
+        List<Customer> customers = customerDao.searchCustomer(request.getBody().getCustomer());
+        return new Response<>(new OutputHeader(), customers);
     }
 
     /**

@@ -91,7 +91,8 @@ public class ORMConfig {
 //            transaction.commit();
 
             Customer customer = new Customer();
-            customer.setFirstname("Din");
+            customer.setFirstname("DiN");
+            customer.setLastname("hr");
             CustomerDaoImpl dao = new CustomerDaoImpl();
 //            List list = dao.searchCustomer(customer);
 

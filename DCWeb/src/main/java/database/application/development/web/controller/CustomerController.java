@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("customer")
@@ -84,6 +86,16 @@ public class CustomerController extends Serializer {
         ApplicationInputs inputs = new ApplicationInputs().setCustomer(customer);
         Response<Customer> result = customerService.createCustomer(new Request<>(header, inputs));
         ResponseEntity<Response<Customer>> response = new ResponseEntity<Response<Customer>>(result, HttpStatus.OK);
+
+        return serializeResponse(result, new Views.RequestToCustomer());
+    }
+
+    @PostMapping("search")
+    @ApiOperation(value = "Search Customer", notes = "Implementation for creating a Customer")
+    public ResponseEntity<Response<List<Customer>>> searchCustomers(@RequestBody Customer customer) throws JsonProcessingException {
+        InputHeader header = new InputHeader();
+        ApplicationInputs inputs = new ApplicationInputs().setCustomer(customer);
+        Response<List<Customer>> result = customerService.searchCustomer(new Request<>(header, inputs));
 
         return serializeResponse(result, new Views.RequestToCustomer());
     }

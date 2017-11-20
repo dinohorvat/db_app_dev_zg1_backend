@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -39,19 +41,38 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
         return customer;
     }
 
-//    TODO: create search
-//    public List<Customer> searchCustomer(Customer customer){
-//        Session session = this.getSession();
-//
-//        Criteria cr = session.createCriteria(Customer.class);
-//        cr.add(Restrictions.ilike("firstname", "%"+customer.getFirstname()+"%"));
-//        cr.add(Restrictions.ilike("lastname", "%"+customer.getLastname()+"%"));
-//        cr.add(Restrictions.ilike("email", "%"+customer.getEmail()+"%"));
-//
-//        List<Customer> results = cr.list();
-//
-//        return results;
-//    }
+    @Override
+    public List<Customer> searchCustomer(Customer customer){
+        Session session = this.getSession();
+
+        Criteria cr = session.createCriteria(Customer.class);
+
+        if(customer.getFirstname() != null && !customer.getFirstname().isEmpty()){
+            Criterion fn = Restrictions.ilike("firstname", "%"+customer.getFirstname()+"%");
+            Disjunction orOperator = Restrictions.or(fn);
+            cr.add(orOperator);
+        }
+
+        if(customer.getLastname() != null && !customer.getLastname().isEmpty()){
+            Criterion ln = Restrictions.ilike("lastname", "%"+customer.getLastname()+"%");
+            Disjunction orOperator = Restrictions.or(ln);
+            cr.add(orOperator);
+        }
+
+        if(customer.getEmail() != null && !customer.getEmail().isEmpty()){
+            Criterion email = Restrictions.ilike("email", "%"+customer.getEmail()+"%");
+            Disjunction orOperator = Restrictions.or(email);
+            cr.add(orOperator);
+        }
+
+
+        List<Customer> results = cr.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+
+        if(results.size() == 0){
+            throw new EmptyResultDataAccessException("No search results, expected at least one",1);
+        }
+        return results;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
