@@ -47,6 +47,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Response<Employee> findByUsername(Request<ApplicationInputs> request) {
+        Employee employee = employeeDao.findByEmail(request.getBody().getEmployee());
+        return new Response<>(new OutputHeader(), employee);
+    }
+
+    @Override
     public void deleteEmployee(Request<ApplicationInputs> request) {
         Employee employee = employeeDao.getEmployeeById(request.getBody().getEntityId());
         addToEmployeeHistory("DELETE", employee);

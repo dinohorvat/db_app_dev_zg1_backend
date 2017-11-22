@@ -35,6 +35,25 @@ public class EmployeeDaoImpl extends ORMConfig implements EmployeeDao {
     }
 
     @Override
+    public Employee findByEmail(Employee employee) {
+        Session session = this.getSession();
+
+        String hql = "FROM employee WHERE username = :username";
+        Employee result = (Employee) session.createQuery(hql)
+                .setString("username", employee.getUsername())
+                .uniqueResult();
+
+        if(result == null){
+            session.close();
+            throw new EmptyResultDataAccessException(1);
+        }
+
+        session.close();
+        return result;
+    }
+
+
+    @Override
     public Employee updateEmployee(Employee employee) {
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();

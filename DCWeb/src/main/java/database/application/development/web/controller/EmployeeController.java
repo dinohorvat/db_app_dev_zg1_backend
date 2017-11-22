@@ -43,6 +43,18 @@ public class EmployeeController extends Serializer {
         return serializeResponse(result, new Views.RequestToEmployee());
     }
 
+    @PostMapping("findByUsername")
+    @ApiOperation(value = "Find employee by respective username", notes = "Implementation for finding an employee by username." +
+            " It is sufficient to just provide username in the Employee object.")
+    public ResponseEntity<Response<Employee>> findEmployeeByUsername(@RequestBody Employee employee) throws JsonProcessingException {
+        InputHeader header = new InputHeader();
+        ApplicationInputs inputs = new ApplicationInputs().setEmployee(employee);
+
+        Response<Employee> result = employeeService.findByUsername(new Request<>(header, inputs));
+
+        return serializeResponse(result, new Views.RequestToEmployee());
+    }
+
     @PostMapping
     @ApiOperation(value = "Create Employee", notes = "Implementation for creating an Employee")
     public ResponseEntity<Response<Employee>> createEmployee(@RequestBody Employee employee) throws JsonProcessingException {

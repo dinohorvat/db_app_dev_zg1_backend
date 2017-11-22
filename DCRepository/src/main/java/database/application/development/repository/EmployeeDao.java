@@ -8,6 +8,8 @@ import database.application.development.model.domain.Employee;
 public interface EmployeeDao {
     Employee getEmployeeById(int entityId);
 
+    Employee findByEmail(Employee employee);
+
     Employee updateEmployee(Employee employee);
 
     Employee createEmployee(Employee employee);

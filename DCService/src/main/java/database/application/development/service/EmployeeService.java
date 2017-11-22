@@ -13,5 +13,7 @@ public interface EmployeeService {
 
     Response<Employee> updateEmployee(Request<ApplicationInputs> request);
 
+    Response<Employee> findByUsername(Request<ApplicationInputs> request);
+
     void deleteEmployee(Request<ApplicationInputs> request);
 }
