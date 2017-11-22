@@ -52,9 +52,9 @@ public class CustomerController extends Serializer {
 
     @PostMapping("findByEmail")
     @ApiOperation(value = "Find customer by their EXACT Email", notes = "Needs to be a post method as the top-level domain (i.e. '.com,' '.org,' etc. get stripped when using GET.)")
-    public ResponseEntity<Response<Customer>> getCustomerByEmail(@RequestBody String email) throws JsonProcessingException {
+    public ResponseEntity<Response<Customer>> getCustomerByEmail(@RequestBody Customer customer) throws JsonProcessingException {
         InputHeader header = new InputHeader();
-        ApplicationInputs inputs = new ApplicationInputs().setCustomerEmail(email);
+        ApplicationInputs inputs = new ApplicationInputs().setCustomerEmail(customer.getEmail());
 
         Response<Customer> result = customerService.getCustomerByEmail(new Request<>(header, inputs));
 
