@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class ProductController extends Serializer {
         this.productService = productService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find Product by ID", notes = "Implementation for getting a Product by ID")
     public ResponseEntity<Response<Product>> getProductById(@PathVariable int id) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -46,7 +47,7 @@ public class ProductController extends Serializer {
         return serializeResponse(result, new Views.RequestToProduct());
     }
 
-    @GetMapping()
+    @GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find Product by ID", notes = "Implementation for getting a Product by ID")
     public ResponseEntity<Response<Product>> getAllProducts() throws JsonProcessingException {
         Response<List<Product>> result = productService.getAllProducts();
@@ -55,7 +56,7 @@ public class ProductController extends Serializer {
         return serializeResponse(result, new Views.RequestToProduct());
     }
 
-    @PostMapping
+    @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Product", notes = "Implementation for creating a Product")
     public ResponseEntity<Response<Product>> createProduct(@RequestBody Product product) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -66,7 +67,7 @@ public class ProductController extends Serializer {
         return serializeResponse(result, new Views.RequestToProduct());
     }
 
-    @PutMapping
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update Product", notes = "Implementation for updating a Product")
     public ResponseEntity<Response<Product>> updateProduct(@RequestBody Product product) throws JsonProcessingException {
         InputHeader header = new InputHeader();

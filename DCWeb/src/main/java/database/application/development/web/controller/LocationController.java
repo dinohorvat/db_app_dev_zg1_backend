@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class LocationController extends Serializer {
         this.locationService = locationService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find Location by ID", notes = "Implementation for getting Location by ID")
     public ResponseEntity<Response<Location>> getLocationById(@PathVariable int id) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -44,7 +45,7 @@ public class LocationController extends Serializer {
         return serializeResponse(result, new Views.RequestToLocation());
     }
 
-    @PostMapping
+    @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Location", notes = "Implementation for creating a Location")
     public ResponseEntity<Response<Location>> createLocation(@RequestBody Location location) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -55,7 +56,7 @@ public class LocationController extends Serializer {
         return serializeResponse(result, new Views.RequestToLocation());
     }
 
-    @PutMapping
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update Location", notes = "Implementation for updating a Location")
     public ResponseEntity<Response<Location>> updateLocation(@RequestBody Location location) throws JsonProcessingException {
         InputHeader header = new InputHeader();

@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class CurrencyController extends Serializer{
         this.currencyService = currencyService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping(name = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find Currency by ID", notes = "Implementation for getting Currency by ID")
     public ResponseEntity<Response<Currency>> getCurrencyById(@PathVariable int id) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -44,7 +45,7 @@ public class CurrencyController extends Serializer{
         return serializeResponse(result, new Views.RequestToCurrency());
     }
 
-    @PostMapping
+    @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Currency", notes = "Implementation for creating a Currency")
     public ResponseEntity<Response<Currency>> createCurrency(@RequestBody Currency currency) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -55,7 +56,7 @@ public class CurrencyController extends Serializer{
         return serializeResponse(result, new Views.RequestToCurrency());
     }
 
-    @PutMapping
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update Currency", notes = "Implementation for updating a Currency")
     public ResponseEntity<Response<Currency>> updateCurrency(@RequestBody Currency currency) throws JsonProcessingException {
         InputHeader header = new InputHeader();

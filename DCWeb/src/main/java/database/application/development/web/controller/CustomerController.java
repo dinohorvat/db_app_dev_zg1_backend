@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class CustomerController extends Serializer {
         this.mailService = mailService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find Customer by ID", notes = "Implementation for getting Customer by ID")
     public ResponseEntity<Response<Customer>> getCustomerById(@PathVariable int id) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -50,7 +51,7 @@ public class CustomerController extends Serializer {
         return serializeResponse(result, new Views.RequestToCustomer());
     }
 
-    @PostMapping("findByEmail")
+    @PostMapping(path = "findByEmail", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find customer by their EXACT Email", notes = "Needs to be a post method as the top-level domain (i.e. '.com,' '.org,' etc. get stripped when using GET.)")
     public ResponseEntity<Response<Customer>> getCustomerByEmail(@RequestBody Customer customer) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -65,7 +66,7 @@ public class CustomerController extends Serializer {
         return serializeResponse(result, new Views.RequestToCustomer());
     }
 
-    @PostMapping("sendMail")
+    @PostMapping(path = "sendMail", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Send an email to the specified customer email", notes = "This takes an Email object, NOT a customer object. Technically, this method could send to any email address, not just a customer's,  but it was placed within the Customer controller as it is currently the only entity with an email address.")
     public void sendMail(@RequestBody Email email) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -74,7 +75,7 @@ public class CustomerController extends Serializer {
         mailService.sendMail(new Request<>(header, inputs));
     }
 
-    @PostMapping("sendMailToAll")
+    @PostMapping(path = "sendMailToAll", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Send an email to every customer", notes = "Like the sendMail method, this takes an Email object, NOT a customer object. Setting an address in the email object is unnecessary as it will be overwritten.")
     public void sendMailToAll(@RequestBody Email email) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -83,7 +84,7 @@ public class CustomerController extends Serializer {
         mailService.sendMailToAll(new Request<>(header, inputs));
     }
 
-    @PostMapping
+    @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Customer", notes = "Implementation for creating a Customer")
     public ResponseEntity<Response<Customer>> createCustomer(@RequestBody Customer customer) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -94,7 +95,7 @@ public class CustomerController extends Serializer {
         return serializeResponse(result, new Views.RequestToCustomer());
     }
 
-    @PostMapping("search")
+    @PostMapping(path = "search", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Search Customer", notes = "Implementation for creating a Customer")
     public ResponseEntity<Response<List<Customer>>> searchCustomers(@RequestBody Customer customer) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -104,7 +105,7 @@ public class CustomerController extends Serializer {
         return serializeResponse(result, new Views.RequestToCustomer());
     }
 
-    @PutMapping
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update Customer", notes = "Implementation for updating a Customer")
     public ResponseEntity<Response<Customer>> updateCustomer(@RequestBody Customer customer) throws JsonProcessingException {
         InputHeader header = new InputHeader();

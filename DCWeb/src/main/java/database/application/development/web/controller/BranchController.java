@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class BranchController extends Serializer{
         this.branchService = branchService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find Branch by ID", notes = "Implementation for getting Branch by ID")
     public ResponseEntity<Response<Branch>> getBranchById(@PathVariable int id) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -44,7 +45,7 @@ public class BranchController extends Serializer{
         return serializeResponse(result, new Views.RequestToBranch());
     }
 
-    @PostMapping
+    @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Branch", notes = "Implementation for creating a Branch")
     public ResponseEntity<Response<Branch>> createBranch(@RequestBody Branch branch) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -55,7 +56,7 @@ public class BranchController extends Serializer{
         return serializeResponse(result, new Views.RequestToBranch());
     }
 
-    @PutMapping
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update Branch", notes = "Implementation for updating a Branch")
     public ResponseEntity<Response<Branch>> updateBranch(@RequestBody Branch branch) throws JsonProcessingException {
         InputHeader header = new InputHeader();

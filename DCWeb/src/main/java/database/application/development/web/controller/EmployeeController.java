@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class EmployeeController extends Serializer {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path="{id}", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find Employee by ID", notes = "Implementation for getting an Employee by their ID")
     public ResponseEntity<Response<Employee>> getEmployeeById(@PathVariable int id) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -43,7 +44,7 @@ public class EmployeeController extends Serializer {
         return serializeResponse(result, new Views.RequestToEmployee());
     }
 
-    @PostMapping("findByUsername")
+    @PostMapping(path = "findByUsername", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find employee by respective username", notes = "Implementation for finding an employee by username." +
             " It is sufficient to just provide username in the Employee object.")
     public ResponseEntity<Response<Employee>> findEmployeeByUsername(@RequestBody Employee employee) throws JsonProcessingException {
@@ -55,7 +56,7 @@ public class EmployeeController extends Serializer {
         return serializeResponse(result, new Views.RequestToEmployee());
     }
 
-    @PostMapping
+    @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Employee", notes = "Implementation for creating an Employee")
     public ResponseEntity<Response<Employee>> createEmployee(@RequestBody Employee employee) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -66,7 +67,7 @@ public class EmployeeController extends Serializer {
         return serializeResponse(result, new Views.RequestToEmployee());
     }
 
-    @PutMapping
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update Employee", notes = "Implementation for updating an Employee")
     public ResponseEntity<Response<Employee>> updateEmployee(@RequestBody Employee employee) throws JsonProcessingException {
         InputHeader header = new InputHeader();

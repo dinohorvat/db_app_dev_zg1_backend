@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class CompanyController extends Serializer{
         this.companyService = companyService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find Company by ID", notes = "Implementation for getting Company by ID")
     public ResponseEntity<Response<Company>> getCompanyById(@PathVariable int id) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -47,7 +48,7 @@ public class CompanyController extends Serializer{
         return serializeResponse(result, new Views.RequestToCompany());
     }
 
-    @PostMapping
+    @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Company", notes = "Implementation for creating Company")
     public ResponseEntity<Response<Company>> createCompany(@RequestBody Company company) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -58,7 +59,7 @@ public class CompanyController extends Serializer{
         return serializeResponse(result, new Views.RequestToCompany());
     }
 
-    @PutMapping
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update Company", notes = "Implementation for updating Company")
     public ResponseEntity<Response<Company>> updateCompany(@RequestBody Company company) throws JsonProcessingException {
         InputHeader header = new InputHeader();

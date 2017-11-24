@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class TransactionsController extends Serializer{
         this.transactionsService = transactionsService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find Transactions by ID", notes = "Implementation for getting a Transactions by ID")
     public ResponseEntity<Response<Transactions>> getTransactionsById(@PathVariable int id) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -44,7 +45,7 @@ public class TransactionsController extends Serializer{
         return serializeResponse(result, new Views.RequestToTransaction());
     }
 
-    @PostMapping
+    @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Transactions", notes = "Implementation for creating a Transactions")
     public ResponseEntity<Response<Transactions>> createTransactions(@RequestBody Transactions transactions) throws JsonProcessingException {
         InputHeader header = new InputHeader();
@@ -55,7 +56,7 @@ public class TransactionsController extends Serializer{
         return serializeResponse(result, new Views.RequestToTransaction());
     }
 
-    @PutMapping
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update Transactions", notes = "Implementation for updating a Transactions")
     public ResponseEntity<Response<Transactions>> updateTransactions(@RequestBody Transactions transactions) throws JsonProcessingException {
         InputHeader header = new InputHeader();
