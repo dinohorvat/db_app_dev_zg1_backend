@@ -6,6 +6,7 @@ import database.application.development.model.messages.ApplicationInputs;
 import database.application.development.model.messages.OutputHeader;
 import database.application.development.model.messages.Request;
 import database.application.development.model.messages.Response;
+import database.application.development.model.util.ProductStatus;
 import database.application.development.repository.ProductDao;
 import database.application.development.repository.hst.HstProductDao;
 import database.application.development.service.ProductService;
@@ -65,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Request<ApplicationInputs> request) {
         Product product = productDao.getProductById(request.getBody().getEntityId());
 
+        product.setProductStatus(ProductStatus.DELETED);
         addToProductHistory("DELETE", product);
 
         productDao.deleteProduct(product);

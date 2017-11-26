@@ -67,7 +67,7 @@ public class ProductDaoImpl extends ORMConfig implements ProductDao {
     public List<Product> getAllProducts() {
         Session session = this.getSession();
 
-        String hql = "FROM product ";
+        String hql = "FROM product WHERE productStatus != 'DELETED'";
         List<Product> products = session.createQuery(hql).list();
 
         session.close();
@@ -78,7 +78,7 @@ public class ProductDaoImpl extends ORMConfig implements ProductDao {
     public void deleteProduct(Product product) {
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
-        session.delete(product);
+        session.update(product);
         transaction.commit();
         session.close();
     }

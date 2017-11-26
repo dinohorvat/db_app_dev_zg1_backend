@@ -3,6 +3,7 @@ package database.application.development.model.domain;
 import com.fasterxml.jackson.annotation.JsonView;
 import database.application.development.model.common.BaseModel;
 import database.application.development.model.history.HstProduct;
+import database.application.development.model.util.ProductStatus;
 import database.application.development.model.util.Views;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,11 @@ import java.util.Set;
 @Table(name = "PRODUCT")
 @Getter
 @Setter
-@NoArgsConstructor
 public class Product extends BaseModel {
+
+    public Product(){
+        this.productStatus = ProductStatus.ACTIVE;
+    }
 
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="NAME")
@@ -28,6 +32,11 @@ public class Product extends BaseModel {
     @JsonView(Views.PrimitiveField.class)
     @Column(name ="PRICE")
     private double price;
+
+    @JsonView(Views.PrimitiveField.class)
+    @Enumerated(EnumType.STRING)
+    @Column(name ="PRODUCT_STATUS")
+    private ProductStatus productStatus;
 
     @JsonView(Views.HstProduct.class)
     @SortNatural
