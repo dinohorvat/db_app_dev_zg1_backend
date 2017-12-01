@@ -85,6 +85,13 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Response<Company> updateCompany(Request<ApplicationInputs> request) {
+
+        if(request.getBody().getCompany().getPolicies() != null && request.getBody().getCompany().getPolicies().size() > 0){
+            request.getBody().getCompany().getPolicies().forEach(policy -> {
+                policy.setCompany(request.getBody().getCompany());
+            });
+        }
+
         Company company = companyDAO.updateCompany(request.getBody().getCompany());
         addToCompanyHistory("UPDATE", company);
         return new Response<>(new OutputHeader(), company);
