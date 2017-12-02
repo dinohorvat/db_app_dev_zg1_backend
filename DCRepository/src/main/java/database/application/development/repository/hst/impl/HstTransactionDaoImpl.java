@@ -28,8 +28,6 @@ public class HstTransactionDaoImpl extends ORMConfig implements HstTransactionDa
         Transaction transaction = session.beginTransaction();
         hstTransaction = session.get(HstTransaction.class, hstTransactionId);
         if(hstTransaction == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return hstTransaction;
     }

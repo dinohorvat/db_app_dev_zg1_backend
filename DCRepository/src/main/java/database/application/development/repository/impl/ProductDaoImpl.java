@@ -35,8 +35,7 @@ public class ProductDaoImpl extends ORMConfig implements ProductDao {
         Transaction transaction = session.beginTransaction();
         product = session.get(Product.class, productId);
         if(product == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
+
 
         return product;
     }

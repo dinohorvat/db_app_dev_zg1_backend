@@ -25,8 +25,6 @@ public class RewardPolicyDaoImpl extends ORMConfig implements RewardPolicyDao{
         Transaction transaction = session.beginTransaction();
         rewardPolicy = session.get(RewardPolicy.class, rewardPolicyId);
         if(rewardPolicy == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return rewardPolicy;
     }

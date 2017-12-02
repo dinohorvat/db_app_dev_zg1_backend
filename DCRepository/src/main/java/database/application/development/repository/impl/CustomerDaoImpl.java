@@ -35,8 +35,6 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
         Transaction transaction = session.beginTransaction();
         customer = session.get(Customer.class, customerId);
         if(customer == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return customer;
     }
@@ -84,7 +82,6 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
                 .setString("email", email)
                 .uniqueResult();
 
-        session.close();
         return customer;
     }
 

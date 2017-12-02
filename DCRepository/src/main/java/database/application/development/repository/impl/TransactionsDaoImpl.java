@@ -30,8 +30,6 @@ public class TransactionsDaoImpl extends ORMConfig implements TransactionsDao {
         Transaction transaction = session.beginTransaction();
         transactions = session.get(Transactions.class, transactionsId);
         if(transactions == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return transactions;
     }

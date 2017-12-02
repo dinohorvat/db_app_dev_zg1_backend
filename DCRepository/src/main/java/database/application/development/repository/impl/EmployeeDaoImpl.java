@@ -28,8 +28,6 @@ public class EmployeeDaoImpl extends ORMConfig implements EmployeeDao {
         Transaction transaction = session.beginTransaction();
         employee = session.get(Employee.class, employeeId);
         if(employee == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return employee;
     }
@@ -44,11 +42,9 @@ public class EmployeeDaoImpl extends ORMConfig implements EmployeeDao {
                 .uniqueResult();
 
         if(result == null){
-            session.close();
             throw new EmptyResultDataAccessException(1);
         }
 
-        session.close();
         return result;
     }
 

@@ -28,8 +28,6 @@ public class LocationDaoImpl extends ORMConfig implements LocationDao {
         Transaction transaction = session.beginTransaction();
         location = session.get(Location.class, locationId);
         if(location == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return location;
     }

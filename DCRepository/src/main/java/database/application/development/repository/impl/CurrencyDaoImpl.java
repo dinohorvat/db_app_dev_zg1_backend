@@ -25,8 +25,6 @@ public class CurrencyDaoImpl extends ORMConfig implements CurrencyDao{
         Transaction transaction = session.beginTransaction();
         currency = session.get(Currency.class, currencyId);
         if(currency == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return currency;
     }

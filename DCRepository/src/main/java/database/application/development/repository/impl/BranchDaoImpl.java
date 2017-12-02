@@ -29,8 +29,7 @@ public class BranchDaoImpl extends ORMConfig implements BranchDao{
         Transaction transaction = session.beginTransaction();
         branch = session.get(Branch.class, branchId);
         if(branch == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
+
 
         return branch;
     }

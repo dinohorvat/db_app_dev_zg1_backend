@@ -44,7 +44,7 @@ public class Transactions extends BaseModel {
     @JsonView(Views.Transaction.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(mappedBy = "transaction", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Set<RelCustomerProductTransaction> transactionItems;
 
@@ -52,7 +52,7 @@ public class Transactions extends BaseModel {
     @JsonView(Views.Transaction.class)
     @SortNatural
     @OrderBy("id DESC")
-    @OneToMany(mappedBy = "transaction", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Set<HstTransaction> hstTransactions;
 

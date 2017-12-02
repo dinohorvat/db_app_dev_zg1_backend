@@ -26,11 +26,9 @@ public class HstCustomerDaoImpl extends ORMConfig implements HstCustomerDao {
     public HstCustomer getHstCustomerById(int hstCustomerId) {
         Session session = this.getSession();
         HstCustomer hstCustomer = null;
-        Transaction transaction = session.beginTransaction();
+        session.beginTransaction();
         hstCustomer = session.get(HstCustomer.class, hstCustomerId);
         if(hstCustomer == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return hstCustomer;
     }

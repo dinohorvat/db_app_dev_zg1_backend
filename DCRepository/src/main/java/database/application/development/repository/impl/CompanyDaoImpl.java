@@ -29,8 +29,6 @@ public class CompanyDaoImpl extends ORMConfig implements CompanyDao{
         Transaction transaction = session.beginTransaction();
         company = session.get(Company.class, companyId);
         if(company == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return company;
     }

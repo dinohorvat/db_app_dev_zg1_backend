@@ -28,8 +28,6 @@ public class HstBranchDaoImpl extends ORMConfig implements HstBranchDao {
         Transaction transaction = session.beginTransaction();
         hstBranch = session.get(HstBranch.class, hstBranchId);
         if(hstBranch == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return hstBranch;
     }

@@ -28,8 +28,6 @@ public class HstCompanyDaoImpl extends ORMConfig implements HstCompanyDao {
         Transaction transaction = session.beginTransaction();
         hstCompany = session.get(HstCompany.class, hstCompanyId);
         if(hstCompany == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return hstCompany;
     }

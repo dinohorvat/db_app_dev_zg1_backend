@@ -28,8 +28,6 @@ public class HstEmployeeDaoImpl extends ORMConfig implements HstEmployeeDao {
         Transaction transaction = session.beginTransaction();
         hstEmployee = session.get(HstEmployee.class, hstEmployeeId);
         if(hstEmployee == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return hstEmployee;
     }
