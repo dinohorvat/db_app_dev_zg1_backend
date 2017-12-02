@@ -22,10 +22,8 @@ public class HstTransactionDaoImpl extends ORMConfig implements HstTransactionDa
     }
 
     @Override
-    public HstTransaction getHstTransactionById(int hstTransactionId) {
-        Session session = this.getSession();
+    public HstTransaction getHstTransactionById(int hstTransactionId, Session session) {
         HstTransaction hstTransaction = null;
-        Transaction transaction = session.beginTransaction();
         hstTransaction = session.get(HstTransaction.class, hstTransactionId);
         if(hstTransaction == null) throw new EmptyResultDataAccessException(1);
 
@@ -40,18 +38,14 @@ public class HstTransactionDaoImpl extends ORMConfig implements HstTransactionDa
         transaction.commit();
         session.close();
 
-        return getHstTransactionById(hstTransaction.getId());
+        return getHstTransactionById(hstTransaction.getId(), session);
     }
 
     @Override
-    public HstTransaction createHstTransaction(HstTransaction hstTransaction) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public HstTransaction createHstTransaction(HstTransaction hstTransaction, Session session) {
         int newEntityId = (int) session.save(hstTransaction);
-        transaction.commit();
-        session.close();
 
-        return getHstTransactionById(newEntityId);
+        return getHstTransactionById(newEntityId, session);
     }
 
     @Override

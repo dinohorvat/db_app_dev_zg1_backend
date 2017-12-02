@@ -22,10 +22,8 @@ public class HstProductDaoImpl extends ORMConfig implements HstProductDao {
     }
 
     @Override
-    public HstProduct getHstProductById(int hstProductId) {
-        Session session = this.getSession();
+    public HstProduct getHstProductById(int hstProductId, Session session) {
         HstProduct hstProduct = null;
-        Transaction transaction = session.beginTransaction();
         hstProduct = session.get(HstProduct.class, hstProductId);
         if(hstProduct == null) throw new EmptyResultDataAccessException(1);
 
@@ -40,18 +38,14 @@ public class HstProductDaoImpl extends ORMConfig implements HstProductDao {
         transaction.commit();
         session.close();
 
-        return getHstProductById(hstProduct.getId());
+        return getHstProductById(hstProduct.getId(), session);
     }
 
     @Override
-    public HstProduct createHstProduct(HstProduct hstProduct) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public HstProduct createHstProduct(HstProduct hstProduct, Session session) {
         int newEntityId = (int) session.save(hstProduct);
-        transaction.commit();
-        session.close();
 
-        return getHstProductById(newEntityId);
+        return getHstProductById(newEntityId, session);
     }
 
     @Override

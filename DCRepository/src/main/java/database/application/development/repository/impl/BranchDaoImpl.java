@@ -15,18 +15,15 @@ import org.springframework.stereotype.Repository;
  */
 @Slf4j
 @Repository
-public class BranchDaoImpl extends ORMConfig implements BranchDao{
+public class BranchDaoImpl implements BranchDao{
 
     @Autowired
     public BranchDaoImpl(){
-        super();
     }
 
     @Override
-    public Branch getBranchById(int branchId) {
-        Session session = this.getSession();
+    public Branch getBranchById(int branchId, Session session) {
         Branch branch = null;
-        Transaction transaction = session.beginTransaction();
         branch = session.get(Branch.class, branchId);
         if(branch == null) throw new EmptyResultDataAccessException(1);
 
@@ -35,34 +32,20 @@ public class BranchDaoImpl extends ORMConfig implements BranchDao{
     }
 
     @Override
-    public Branch updateBranch(Branch branch) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Branch updateBranch(Branch branch, Session session) {
         session.update(branch);
-        transaction.commit();
-        session.close();
-
-        return getBranchById(branch.getId());
+        return getBranchById(branch.getId(), session);
     }
 
     @Override
-    public Branch createBranch(Branch branch) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Branch createBranch(Branch branch, Session session) {
         int newEntityId = (int) session.save(branch);
-        transaction.commit();
-        session.close();
-
-        return getBranchById(newEntityId);
+        return getBranchById(newEntityId, session);
     }
 
     @Override
-    public void deleteBranch(Branch branch) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public void deleteBranch(Branch branch, Session session) {
         session.delete(branch);
-        transaction.commit();
-        session.close();
     }
 }
 

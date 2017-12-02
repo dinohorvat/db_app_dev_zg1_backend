@@ -22,17 +22,15 @@ import java.util.List;
  */
 @Slf4j
 @Repository
-public class ProductDaoImpl extends ORMConfig implements ProductDao {
+public class ProductDaoImpl implements ProductDao {
     @Autowired
     public ProductDaoImpl(){
         super();
     }
 
     @Override
-    public Product getProductById(int productId) {
-        Session session = this.getSession();
+    public Product getProductById(int productId, Session session) {
         Product product = null;
-        Transaction transaction = session.beginTransaction();
         product = session.get(Product.class, productId);
         if(product == null) throw new EmptyResultDataAccessException(1);
 
@@ -41,45 +39,31 @@ public class ProductDaoImpl extends ORMConfig implements ProductDao {
     }
 
     @Override
-    public Product updateProduct(Product product) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Product updateProduct(Product product, Session session) {
         session.update(product);
-        transaction.commit();
-        session.close();
 
-        return getProductById(product.getId());
+        return getProductById(product.getId(), session);
     }
 
     @Override
-    public Product createProduct(Product product) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Product createProduct(Product product, Session session) {
         int newEntityId = (int) session.save(product);
-        transaction.commit();
-        session.close();
 
-        return getProductById(newEntityId);
+        return getProductById(newEntityId, session);
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        Session session = this.getSession();
+    public List<Product> getAllProducts(Session session) {
 
         String hql = "FROM product WHERE productStatus != 'DELETED'";
         List<Product> products = session.createQuery(hql).list();
 
-        session.close();
         return products;
     }
 
     @Override
-    public void deleteProduct(Product product) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public void deleteProduct(Product product, Session session) {
         session.update(product);
-        transaction.commit();
-        session.close();
     }
 }
 

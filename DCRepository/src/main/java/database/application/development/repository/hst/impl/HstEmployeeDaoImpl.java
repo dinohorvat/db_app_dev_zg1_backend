@@ -22,10 +22,8 @@ public class HstEmployeeDaoImpl extends ORMConfig implements HstEmployeeDao {
     }
 
     @Override
-    public HstEmployee getHstEmployeeById(int hstEmployeeId) {
-        Session session = this.getSession();
+    public HstEmployee getHstEmployeeById(int hstEmployeeId, Session session) {
         HstEmployee hstEmployee = null;
-        Transaction transaction = session.beginTransaction();
         hstEmployee = session.get(HstEmployee.class, hstEmployeeId);
         if(hstEmployee == null) throw new EmptyResultDataAccessException(1);
 
@@ -40,18 +38,14 @@ public class HstEmployeeDaoImpl extends ORMConfig implements HstEmployeeDao {
         transaction.commit();
         session.close();
 
-        return getHstEmployeeById(hstEmployee.getId());
+        return getHstEmployeeById(hstEmployee.getId(), session);
     }
 
     @Override
-    public HstEmployee createHstEmployee(HstEmployee hstEmployee) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public HstEmployee createHstEmployee(HstEmployee hstEmployee, Session session) {
         int newEntityId = (int) session.save(hstEmployee);
-        transaction.commit();
-        session.close();
 
-        return getHstEmployeeById(newEntityId);
+        return getHstEmployeeById(newEntityId, session);
     }
 
     @Override

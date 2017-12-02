@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  */
 @Slf4j
 @Repository
-public class TransactionsDaoImpl extends ORMConfig implements TransactionsDao {
+public class TransactionsDaoImpl implements TransactionsDao {
 
     @Autowired
     public TransactionsDaoImpl(){
@@ -24,10 +24,8 @@ public class TransactionsDaoImpl extends ORMConfig implements TransactionsDao {
     }
 
     @Override
-    public Transactions getTransactionsById(int transactionsId) {
-        Session session = this.getSession();
+    public Transactions getTransactionsById(int transactionsId, Session session) {
         Transactions transactions = null;
-        Transaction transaction = session.beginTransaction();
         transactions = session.get(Transactions.class, transactionsId);
         if(transactions == null) throw new EmptyResultDataAccessException(1);
 
@@ -35,34 +33,24 @@ public class TransactionsDaoImpl extends ORMConfig implements TransactionsDao {
     }
 
     @Override
-    public Transactions updateTransactions(Transactions transactions) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Transactions updateTransactions(Transactions transactions, Session session) {
+
         session.update(transactions);
-        transaction.commit();
-        session.close();
 
-        return getTransactionsById(transactions.getId());
+        return getTransactionsById(transactions.getId(), session);
     }
 
     @Override
-    public Transactions createTransactions(Transactions transactions) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Transactions createTransactions(Transactions transactions, Session session) {
+
         int newEntityId = (int) session.save(transactions);
-        transaction.commit();
-        session.close();
 
-        return getTransactionsById(newEntityId);
+        return getTransactionsById(newEntityId, session);
     }
 
     @Override
-    public void deleteTransactions(Transactions transactions) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public void deleteTransactions(Transactions transactions, Session session) {
         transactions.setStatus(TransactionStatus.CANCELED);
         session.update(transactions);
-        transaction.commit();
-        session.close();
     }
 }

@@ -8,9 +8,11 @@ import database.application.development.model.messages.OutputHeader;
 import database.application.development.model.messages.Request;
 import database.application.development.model.messages.Response;
 import database.application.development.repository.CustomerDao;
+import database.application.development.repository.configuration.ORMConfig;
 import database.application.development.repository.hst.HstCustomerDao;
 import database.application.development.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,40 +22,51 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl extends ORMConfig implements CustomerService {
 
     private CustomerDao customerDao;
     private HstCustomerDao hstCustomerDao;
 
     @Autowired
     public CustomerServiceImpl(CustomerDao customerDao, HstCustomerDao hstCustomerDao) {
+        super();
         this.customerDao = customerDao;
         this.hstCustomerDao = hstCustomerDao;
     }
 
     @Override
     public Response<Customer> getCustomerById(Request<ApplicationInputs> request) {
-        Customer customer = customerDao.getCustomerById(request.getBody().getEntityId());
+        Session session = this.getSession();
+        Customer customer = customerDao.getCustomerById(request.getBody().getEntityId(), session);
+        session.close();
         return new Response<>(new OutputHeader(), customer);
     }
 
     @Override
     public Response<Customer> getCustomerByEmail(Request<ApplicationInputs> request) {
-        Customer customer = customerDao.getCustomerByEmail(request.getBody().getCustomerEmail());
+        Session session = this.getSession();
+        Customer customer = customerDao.getCustomerByEmail(request.getBody().getCustomerEmail(), session);
+        session.close();
         return new Response<>(new OutputHeader(), customer);
     }
 
     @Override
     public Response<Customer> createCustomer(Request<ApplicationInputs> request) {
-        Customer customer = customerDao.createCustomer(request.getBody().getCustomer());
+        Session session = this.getSession();
+        session.beginTransaction();
+        Customer customer = customerDao.createCustomer(request.getBody().getCustomer(), session);
+        addToCustomerHistory("INSERT", customer, session);
 
-        addToCustomerHistory("INSERT", customer);
+        session.getTransaction().commit();
+        session.close();
 
         return new Response<>(new OutputHeader(), customer);
     }
 
     @Override
     public Response<Customer> updateCustomer(Request<ApplicationInputs> request) {
+        Session session = this.getSession();
+        session.beginTransaction();
 
         request.getBody().getCustomer().getRewardPoints().forEach(rewardPoints -> {
             rewardPoints.setCustomer(request.getBody().getCustomer());
@@ -65,25 +78,34 @@ public class CustomerServiceImpl implements CustomerService {
             }
         });
 
-        Customer customer = customerDao.updateCustomer(request.getBody().getCustomer());
+        Customer customer = customerDao.updateCustomer(request.getBody().getCustomer(), session);
 
-        addToCustomerHistory("UPDATE", customer);
+        addToCustomerHistory("UPDATE", customer, session);
+
+        session.getTransaction().commit();
+        session.close();
 
         return new Response<>(new OutputHeader(), customer);
     }
 
     @Override
     public void deleteCustomer(Request<ApplicationInputs> request) {
-        Customer customer = customerDao.getCustomerById(request.getBody().getEntityId());
+        Session session = this.getSession();
+        session.beginTransaction();
+        Customer customer = customerDao.getCustomerById(request.getBody().getEntityId(), session);
+        addToCustomerHistory("DELETE", customer, session);
 
-        addToCustomerHistory("DELETE", customer);
+        customerDao.deleteCustomer(customer, session);
 
-        customerDao.deleteCustomer(customer);
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
     public Response<List<Customer>> searchCustomer(Request<ApplicationInputs> request){
-        List<Customer> customers = customerDao.searchCustomer(request.getBody().getCustomer());
+        Session session = this.getSession();
+        List<Customer> customers = customerDao.searchCustomer(request.getBody().getCustomer(), session);
+        session.close();
         return new Response<>(new OutputHeader(), customers);
     }
 
@@ -93,9 +115,9 @@ public class CustomerServiceImpl implements CustomerService {
      * @param changeDesc The description of the change (INSERT, UPDATE, or DELETE)
      * @param customer The {@link Customer} object which has been changed
      */
-    private void addToCustomerHistory(String changeDesc, Customer customer) {
+    private void addToCustomerHistory(String changeDesc, Customer customer, Session session) {
         HstCustomer hstCustomer = new HstCustomer(changeDesc, customer);
-        hstCustomer = hstCustomerDao.createHstCustomer(hstCustomer);
+        hstCustomer = hstCustomerDao.createHstCustomer(hstCustomer, session);
         customer.getHstCustomers().add(hstCustomer);
     }
 }

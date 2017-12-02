@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Slf4j
 @Repository
-public class RelCustomerProductTransactionDaoImpl extends ORMConfig implements RelCustomerProductTransactionDao{
+public class RelCustomerProductTransactionDaoImpl implements RelCustomerProductTransactionDao{
 
     @Autowired
     public RelCustomerProductTransactionDaoImpl(){
@@ -20,46 +20,28 @@ public class RelCustomerProductTransactionDaoImpl extends ORMConfig implements R
     }
 
     @Override
-    public RelCustomerProductTransaction getRelCustomerProductTransactionById(int entityId) {
-        Session session = this.getSession();
+    public RelCustomerProductTransaction getRelCustomerProductTransactionById(int entityId, Session session) {
         RelCustomerProductTransaction relation = null;
-        Transaction transaction = session.beginTransaction();
         relation = session.get(RelCustomerProductTransaction.class, entityId);
         if(relation == null) throw new EmptyResultDataAccessException(1);
-        transaction.commit();
-        session.close();
 
         return relation;
     }
 
     @Override
-    public RelCustomerProductTransaction updateRelCustomerProductTransaction(RelCustomerProductTransaction relation) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public RelCustomerProductTransaction updateRelCustomerProductTransaction(RelCustomerProductTransaction relation, Session session) {
         session.update(relation);
-        transaction.commit();
-        session.close();
-
-        return getRelCustomerProductTransactionById(relation.getId());
+        return getRelCustomerProductTransactionById(relation.getId(), session);
     }
 
     @Override
-    public RelCustomerProductTransaction createRelCustomerProductTransaction(RelCustomerProductTransaction relation) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public RelCustomerProductTransaction createRelCustomerProductTransaction(RelCustomerProductTransaction relation, Session session) {
         int newEntityId = (int) session.save(relation);
-        transaction.commit();
-        session.close();
-
-        return getRelCustomerProductTransactionById(newEntityId);
+        return getRelCustomerProductTransactionById(newEntityId, session);
     }
 
     @Override
-    public void deleteRelCustomerProductTransaction(RelCustomerProductTransaction relation) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public void deleteRelCustomerProductTransaction(RelCustomerProductTransaction relation, Session session) {
         session.delete(relation);
-        transaction.commit();
-        session.close();
     }
 }

@@ -12,17 +12,14 @@ import org.springframework.stereotype.Repository;
 
 @Slf4j
 @Repository
-public class CurrencyDaoImpl extends ORMConfig implements CurrencyDao{
+public class CurrencyDaoImpl implements CurrencyDao{
     @Autowired
     public CurrencyDaoImpl(){
-        super();
     }
 
     @Override
-    public Currency getCurrencyById(int currencyId) {
-        Session session = this.getSession();
+    public Currency getCurrencyById(int currencyId, Session session) {
         Currency currency = null;
-        Transaction transaction = session.beginTransaction();
         currency = session.get(Currency.class, currencyId);
         if(currency == null) throw new EmptyResultDataAccessException(1);
 
@@ -30,33 +27,20 @@ public class CurrencyDaoImpl extends ORMConfig implements CurrencyDao{
     }
 
     @Override
-    public Currency updateCurrency(Currency currency) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Currency updateCurrency(Currency currency, Session session) {
         session.update(currency);
-        transaction.commit();
-        session.close();
-
-        return getCurrencyById(currency.getId());
+        return getCurrencyById(currency.getId(), session);
     }
 
     @Override
-    public Currency createCurrency(Currency currency) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Currency createCurrency(Currency currency, Session session) {
         int newEntityId = (int) session.save(currency);
-        transaction.commit();
-        session.close();
 
-        return getCurrencyById(newEntityId);
+        return getCurrencyById(newEntityId, session);
     }
 
     @Override
-    public void deleteCurrency(Currency currency) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public void deleteCurrency(Currency currency, Session session) {
         session.delete(currency);
-        transaction.commit();
-        session.close();
     }
 }

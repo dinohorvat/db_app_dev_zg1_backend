@@ -32,11 +32,11 @@ public class Transactions extends BaseModel {
     private TransactionStatus status;
 
     @JsonView(Views.Transaction.class)
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private Employee employee;
 
     @JsonView(Views.Transaction.class)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Branch branch;
 
     //TODO: possibly include reward points

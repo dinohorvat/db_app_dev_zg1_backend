@@ -15,18 +15,15 @@ import org.springframework.stereotype.Repository;
  */
 @Slf4j
 @Repository
-public class CompanyDaoImpl extends ORMConfig implements CompanyDao{
+public class CompanyDaoImpl implements CompanyDao{
 
     @Autowired
     public CompanyDaoImpl(){
-        super();
     }
 
     @Override
-    public Company getCompanyById(int companyId) {
-        Session session = this.getSession();
+    public Company getCompanyById(int companyId, Session session) {
         Company company = null;
-        Transaction transaction = session.beginTransaction();
         company = session.get(Company.class, companyId);
         if(company == null) throw new EmptyResultDataAccessException(1);
 
@@ -34,33 +31,19 @@ public class CompanyDaoImpl extends ORMConfig implements CompanyDao{
     }
 
     @Override
-    public Company updateCompany(Company company) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Company updateCompany(Company company, Session session) {
         session.update(company);
-        transaction.commit();
-        session.close();
-
-        return getCompanyById(company.getId());
+        return getCompanyById(company.getId(), session);
     }
 
     @Override
-    public Company createCompany(Company company) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Company createCompany(Company company, Session session) {
         int newEntityId = (int) session.save(company);
-        transaction.commit();
-        session.close();
-
-        return getCompanyById(newEntityId);
+        return getCompanyById(newEntityId, session);
     }
 
     @Override
-    public void deleteCompany(Company company) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public void deleteCompany(Company company, Session session) {
         session.delete(company);
-        transaction.commit();
-        session.close();
     }
 }

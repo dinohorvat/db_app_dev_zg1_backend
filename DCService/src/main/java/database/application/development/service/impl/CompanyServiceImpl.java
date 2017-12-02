@@ -9,14 +9,17 @@ import database.application.development.model.messages.OutputHeader;
 import database.application.development.model.messages.Request;
 import database.application.development.model.messages.Response;
 import database.application.development.repository.CompanyDao;
+import database.application.development.repository.configuration.ORMConfig;
 import database.application.development.repository.hst.HstCompanyDao;
 import database.application.development.service.BranchService;
 import database.application.development.service.CompanyService;
 import database.application.development.service.RewardPolicyService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -24,7 +27,7 @@ import java.util.Set;
  */
 @Service
 @Slf4j
-public class CompanyServiceImpl implements CompanyService {
+public class CompanyServiceImpl extends ORMConfig implements CompanyService {
 
     private CompanyDao companyDAO;
     private HstCompanyDao hstCompanyDao;
@@ -34,6 +37,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     public CompanyServiceImpl(CompanyDao companyDAO, HstCompanyDao hstCompanyDao,
                               BranchService branchService, RewardPolicyService rewardPolicyService){
+        super();
         this.companyDAO = companyDAO;
         this.hstCompanyDao = hstCompanyDao;
         this.branchService = branchService;
@@ -42,12 +46,16 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Response<Company> getCompanyById(Request<ApplicationInputs> request) {
-        Company company = companyDAO.getCompanyById(request.getBody().getEntityId());
+        Session session = this.getSession();
+        Company company = companyDAO.getCompanyById(request.getBody().getEntityId(), session);
+        session.close();
         return new Response<>(new OutputHeader(), company);
     }
 
     @Override
     public Response<Company> createCompany(Request<ApplicationInputs> request) {
+        Session session = this.getSession();
+        session.beginTransaction();
         Set<Branch> tempBranches = null;
         Set<RewardPolicy> tempPolicies = null;
 
@@ -61,8 +69,8 @@ public class CompanyServiceImpl implements CompanyService {
             request.getBody().getCompany().setBranches(null);
         }
 
-        Company company = companyDAO.createCompany(request.getBody().getCompany());
-        addToCompanyHistory("INSERT", company);
+        Company company = companyDAO.createCompany(request.getBody().getCompany(), session);
+        addToCompanyHistory("INSERT", company, session);
 
         if(tempBranches != null && tempBranches.size() > 0){
             tempBranches.forEach(branch -> {
@@ -80,11 +88,16 @@ public class CompanyServiceImpl implements CompanyService {
                 company.getPolicies().add((rewardPolicyService.createRewardPolicy(request)).getBody());
             });
         }
+
+        session.getTransaction().commit();
+        session.close();
         return new Response<>(new OutputHeader(), company);
     }
 
     @Override
     public Response<Company> updateCompany(Request<ApplicationInputs> request) {
+        Session session = this.getSession();
+        session.beginTransaction();
 
         if(request.getBody().getCompany().getPolicies() != null && request.getBody().getCompany().getPolicies().size() > 0){
             request.getBody().getCompany().getPolicies().forEach(policy -> {
@@ -92,16 +105,22 @@ public class CompanyServiceImpl implements CompanyService {
             });
         }
 
-        Company company = companyDAO.updateCompany(request.getBody().getCompany());
-        addToCompanyHistory("UPDATE", company);
+        Company company = companyDAO.updateCompany(request.getBody().getCompany(), session);
+        addToCompanyHistory("UPDATE", company, session);
+        session.getTransaction().commit();
+        session.close();
         return new Response<>(new OutputHeader(), company);
     }
 
     @Override
     public void deleteCompany(Request<ApplicationInputs> request) {
-        Company company = companyDAO.getCompanyById(request.getBody().getEntityId());
-        addToCompanyHistory("DELETE", company);
-        companyDAO.deleteCompany(company);
+        Session session = this.getSession();
+        session.beginTransaction();
+        Company company = companyDAO.getCompanyById(request.getBody().getEntityId(), session);
+        addToCompanyHistory("DELETE", company, session);
+        companyDAO.deleteCompany(company,session);
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**
@@ -110,9 +129,10 @@ public class CompanyServiceImpl implements CompanyService {
      * @param changeDesc The description of the change (INSERT, UPDATE, or DELETE)
      * @param company The {@link Company} object which has been changed
      */
-    private void addToCompanyHistory(String changeDesc, Company company) {
+    private void addToCompanyHistory(String changeDesc, Company company, Session session) {
         HstCompany hstCompany = new HstCompany(changeDesc, company);
-        hstCompany = hstCompanyDao.createHstCompany(hstCompany);
+        hstCompany = hstCompanyDao.createHstCompany(hstCompany, session);
+        if(company.getHstCompanies() == null) company.setHstCompanies(new HashSet<HstCompany>());
         company.getHstCompanies().add(hstCompany);
     }
 }

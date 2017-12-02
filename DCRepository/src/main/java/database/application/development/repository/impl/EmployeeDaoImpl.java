@@ -15,17 +15,15 @@ import org.springframework.stereotype.Repository;
  */
 @Slf4j
 @Repository
-public class EmployeeDaoImpl extends ORMConfig implements EmployeeDao {
+public class EmployeeDaoImpl implements EmployeeDao {
     @Autowired
     public EmployeeDaoImpl(){
         super();
     }
 
     @Override
-    public Employee getEmployeeById(int employeeId) {
-        Session session = this.getSession();
+    public Employee getEmployeeById(int employeeId, Session session) {
         Employee employee = null;
-        Transaction transaction = session.beginTransaction();
         employee = session.get(Employee.class, employeeId);
         if(employee == null) throw new EmptyResultDataAccessException(1);
 
@@ -33,9 +31,7 @@ public class EmployeeDaoImpl extends ORMConfig implements EmployeeDao {
     }
 
     @Override
-    public Employee findByEmail(Employee employee) {
-        Session session = this.getSession();
-
+    public Employee findByEmail(Employee employee, Session session) {
         String hql = "FROM employee WHERE username = :username";
         Employee result = (Employee) session.createQuery(hql)
                 .setString("username", employee.getUsername())
@@ -50,34 +46,20 @@ public class EmployeeDaoImpl extends ORMConfig implements EmployeeDao {
 
 
     @Override
-    public Employee updateEmployee(Employee employee) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Employee updateEmployee(Employee employee, Session session) {
         session.update(employee);
-        transaction.commit();
-        session.close();
-
-        return getEmployeeById(employee.getId());
+        return getEmployeeById(employee.getId(), session);
     }
 
     @Override
-    public Employee createEmployee(Employee employee) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Employee createEmployee(Employee employee, Session session) {
         int newEntityId = (int) session.save(employee);
-        transaction.commit();
-        session.close();
-
-        return getEmployeeById(newEntityId);
+        return getEmployeeById(newEntityId, session);
     }
 
     @Override
-    public void deleteEmployee(Employee employee) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public void deleteEmployee(Employee employee, Session session) {
         session.delete(employee);
-        transaction.commit();
-        session.close();
     }
 }
 

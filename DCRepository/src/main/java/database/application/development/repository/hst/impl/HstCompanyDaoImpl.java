@@ -22,10 +22,8 @@ public class HstCompanyDaoImpl extends ORMConfig implements HstCompanyDao {
     }
 
     @Override
-    public HstCompany getHstCompanyById(int hstCompanyId) {
-        Session session = this.getSession();
+    public HstCompany getHstCompanyById(int hstCompanyId, Session session) {
         HstCompany hstCompany = null;
-        Transaction transaction = session.beginTransaction();
         hstCompany = session.get(HstCompany.class, hstCompanyId);
         if(hstCompany == null) throw new EmptyResultDataAccessException(1);
 
@@ -33,6 +31,7 @@ public class HstCompanyDaoImpl extends ORMConfig implements HstCompanyDao {
     }
 
     @Override
+    //Adjustment needed
     public HstCompany updateHstCompany(HstCompany hstCompany) {
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
@@ -40,18 +39,14 @@ public class HstCompanyDaoImpl extends ORMConfig implements HstCompanyDao {
         transaction.commit();
         session.close();
 
-        return getHstCompanyById(hstCompany.getId());
+        return getHstCompanyById(hstCompany.getId(), session);
     }
 
     @Override
-    public HstCompany createHstCompany(HstCompany hstCompany) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public HstCompany createHstCompany(HstCompany hstCompany, Session session) {
         int newEntityId = (int) session.save(hstCompany);
-        transaction.commit();
-        session.close();
 
-        return getHstCompanyById(newEntityId);
+        return getHstCompanyById(newEntityId, session);
     }
 
     @Override

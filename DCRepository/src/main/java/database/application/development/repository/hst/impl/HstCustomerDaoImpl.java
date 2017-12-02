@@ -23,10 +23,8 @@ public class HstCustomerDaoImpl extends ORMConfig implements HstCustomerDao {
     }
 
     @Override
-    public HstCustomer getHstCustomerById(int hstCustomerId) {
-        Session session = this.getSession();
+    public HstCustomer getHstCustomerById(int hstCustomerId, Session session) {
         HstCustomer hstCustomer = null;
-        session.beginTransaction();
         hstCustomer = session.get(HstCustomer.class, hstCustomerId);
         if(hstCustomer == null) throw new EmptyResultDataAccessException(1);
 
@@ -41,18 +39,14 @@ public class HstCustomerDaoImpl extends ORMConfig implements HstCustomerDao {
         transaction.commit();
         session.close();
 
-        return getHstCustomerById(hstCustomer.getId());
+        return getHstCustomerById(hstCustomer.getId(), session);
     }
 
     @Override
-    public HstCustomer createHstCustomer(HstCustomer hstCustomer) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public HstCustomer createHstCustomer(HstCustomer hstCustomer, Session session) {
         int newEntityId = (int) session.save(hstCustomer);
-        transaction.commit();
-        session.close();
 
-        return getHstCustomerById(newEntityId);
+        return getHstCustomerById(newEntityId, session);
     }
 
     @Override

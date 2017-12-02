@@ -22,10 +22,8 @@ public class HstBranchDaoImpl extends ORMConfig implements HstBranchDao {
     }
 
     @Override
-    public HstBranch getHstBranchById(int hstBranchId) {
-        Session session = this.getSession();
+    public HstBranch getHstBranchById(int hstBranchId, Session session) {
         HstBranch hstBranch = null;
-        Transaction transaction = session.beginTransaction();
         hstBranch = session.get(HstBranch.class, hstBranchId);
         if(hstBranch == null) throw new EmptyResultDataAccessException(1);
 
@@ -40,18 +38,14 @@ public class HstBranchDaoImpl extends ORMConfig implements HstBranchDao {
         transaction.commit();
         session.close();
 
-        return getHstBranchById(hstBranch.getId());
+        return getHstBranchById(hstBranch.getId(), session);
     }
 
     @Override
-    public HstBranch createHstBranch(HstBranch hstBranch) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public HstBranch createHstBranch(HstBranch hstBranch, Session session) {
         int newEntityId = (int) session.save(hstBranch);
-        transaction.commit();
-        session.close();
 
-        return getHstBranchById(newEntityId);
+        return getHstBranchById(newEntityId, session);
     }
 
     @Override

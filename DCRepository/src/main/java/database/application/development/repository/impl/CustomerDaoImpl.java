@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Slf4j
 @Repository
-public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
+public class CustomerDaoImpl implements CustomerDao {
 
     @Autowired
     public CustomerDaoImpl(){
@@ -29,10 +29,8 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
     }
 
     @Override
-    public Customer getCustomerById(int customerId) {
-        Session session = this.getSession();
+    public Customer getCustomerById(int customerId, Session session) {
         Customer customer = null;
-        Transaction transaction = session.beginTransaction();
         customer = session.get(Customer.class, customerId);
         if(customer == null) throw new EmptyResultDataAccessException(1);
 
@@ -40,9 +38,7 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
     }
 
     @Override
-    public List<Customer> searchCustomer(Customer customer){
-        Session session = this.getSession();
-
+    public List<Customer> searchCustomer(Customer customer, Session session){
         Criteria cr = session.createCriteria(Customer.class);
 
         if(customer.getFirstname() != null && !customer.getFirstname().isEmpty()){
@@ -74,8 +70,7 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Customer getCustomerByEmail(String email) {
-        Session session = this.getSession();
+    public Customer getCustomerByEmail(String email, Session session) {
 
         String hql = "FROM customer WHERE email = :email";
         Customer customer = (Customer) session.createQuery(hql)
@@ -87,44 +82,29 @@ public class CustomerDaoImpl extends ORMConfig implements CustomerDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<String> getAllCustomerEmails() {
-        Session session = this.getSession();
+    public List<String> getAllCustomerEmails(Session session) {
 
         String hql = "SELECT email FROM customer";
         List<String> emails = session.createQuery(hql).list();
-
-        session.close();
         return emails;
     }
 
     @Override
-    public Customer updateCustomer(Customer customer) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Customer updateCustomer(Customer customer, Session session) {
         session.update(customer);
-        transaction.commit();
-        session.close();
 
-        return getCustomerById(customer.getId());
+        return getCustomerById(customer.getId(), session);
     }
 
     @Override
-    public Customer createCustomer(Customer customer) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Customer createCustomer(Customer customer, Session session) {
         int newEntityId = (int) session.save(customer);
-        transaction.commit();
-        session.close();
 
-        return getCustomerById(newEntityId);
+        return getCustomerById(newEntityId, session);
     }
 
     @Override
-    public void deleteCustomer(Customer customer) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public void deleteCustomer(Customer customer, Session session) {
         session.delete(customer);
-        transaction.commit();
-        session.close();
     }
 }

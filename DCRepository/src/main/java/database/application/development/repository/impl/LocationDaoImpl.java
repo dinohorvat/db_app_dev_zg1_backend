@@ -15,17 +15,15 @@ import org.springframework.stereotype.Repository;
  */
 @Slf4j
 @Repository
-public class LocationDaoImpl extends ORMConfig implements LocationDao {
+public class LocationDaoImpl implements LocationDao {
     @Autowired
     public LocationDaoImpl(){
         super();
     }
 
     @Override
-    public Location getLocationById(int locationId) {
-        Session session = this.getSession();
+    public Location getLocationById(int locationId, Session session) {
         Location location = null;
-        Transaction transaction = session.beginTransaction();
         location = session.get(Location.class, locationId);
         if(location == null) throw new EmptyResultDataAccessException(1);
 
@@ -33,34 +31,21 @@ public class LocationDaoImpl extends ORMConfig implements LocationDao {
     }
 
     @Override
-    public Location updateLocation(Location location) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Location updateLocation(Location location, Session session) {
         session.update(location);
-        transaction.commit();
-        session.close();
 
-        return getLocationById(location.getId());
+        return getLocationById(location.getId(), session);
     }
 
     @Override
-    public Location createLocation(Location location) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public Location createLocation(Location location, Session session) {
         int newEntityId = (int) session.save(location);
-        transaction.commit();
-        session.close();
-
-        return getLocationById(newEntityId);
+        return getLocationById(newEntityId, session);
     }
 
     @Override
-    public void deleteLocation(Location location) {
-        Session session = this.getSession();
-        Transaction transaction = session.beginTransaction();
+    public void deleteLocation(Location location, Session session) {
         session.delete(location);
-        transaction.commit();
-        session.close();
     }
 }
 
