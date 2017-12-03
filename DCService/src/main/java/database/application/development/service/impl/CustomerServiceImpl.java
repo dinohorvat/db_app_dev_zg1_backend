@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -118,6 +119,7 @@ public class CustomerServiceImpl extends ORMConfig implements CustomerService {
     private void addToCustomerHistory(String changeDesc, Customer customer, Session session) {
         HstCustomer hstCustomer = new HstCustomer(changeDesc, customer);
         hstCustomer = hstCustomerDao.createHstCustomer(hstCustomer, session);
+        if(customer.getHstCustomers() == null) customer.setHstCustomers(new HashSet<HstCustomer>());
         customer.getHstCustomers().add(hstCustomer);
     }
 }
