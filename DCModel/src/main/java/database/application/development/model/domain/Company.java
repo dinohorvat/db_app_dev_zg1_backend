@@ -69,7 +69,7 @@ public class Company extends BaseModel{
     @JsonView(Views.Company.class)
     @SortNatural
     @OrderBy("id ASC ")
-    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn
     private Set<RewardPolicy> policies;
 

@@ -1,6 +1,7 @@
 package database.application.development.repository.impl;
 
 import database.application.development.model.domain.Company;
+import database.application.development.model.domain.RewardPolicy;
 import database.application.development.repository.CompanyDao;
 import database.application.development.repository.configuration.ORMConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +46,11 @@ public class CompanyDaoImpl implements CompanyDao{
     @Override
     public void deleteCompany(Company company, Session session) {
         session.delete(company);
+    }
+
+    @Override
+    public void deleteRewardPolicy(Company company, RewardPolicy rewardPolicy, Session session) {
+        company.getPolicies().remove(rewardPolicy);
+        session.update(rewardPolicy);
     }
 }

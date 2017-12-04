@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ApplicationInputs {
     private int entityId;
     private String customerEmail;
+    private int companyId;
 
     private Branch branch;
     private Company company;
@@ -90,6 +91,11 @@ public class ApplicationInputs {
 
     public ApplicationInputs setCurrency(Currency currency) {
         this.currency = currency;
+        return this;
+    }
+
+    public ApplicationInputs setCompanyId(int companyId) {
+        this.companyId = companyId;
         return this;
     }
 

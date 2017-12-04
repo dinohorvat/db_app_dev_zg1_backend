@@ -1,6 +1,7 @@
 package database.application.development.repository;
 
 import database.application.development.model.domain.Company;
+import database.application.development.model.domain.RewardPolicy;
 import org.hibernate.Session;
 
 /**
@@ -15,4 +16,6 @@ public interface CompanyDao {
     Company createCompany(Company company, Session session);
 
     void deleteCompany(Company company, Session session);
+
+    void deleteRewardPolicy(Company company, RewardPolicy rewardPolicy, Session session);
 }
